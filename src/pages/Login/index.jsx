@@ -1,7 +1,14 @@
 import React from "react";
 import AuthLayout from "../../Layout/auth";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+
+  const handleNavigate = () => {
+    navigate("/reset-password");
+  };
+
   return (
     <AuthLayout>
       <div className="w-full h-full grid place-content-center">
@@ -41,7 +48,11 @@ const Login = () => {
           </button>
           <p className="text-sm text-center -mt-3">
             Forgot password ?{" "}
-            <span role={"button"} className="text-appcolor font-semibold">
+            <span
+              onClick={handleNavigate}
+              role={"button"}
+              className="text-appcolor font-semibold"
+            >
               Request new one here
             </span>
           </p>

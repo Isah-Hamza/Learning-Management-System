@@ -12,7 +12,7 @@ const AuthAsideDesign = () => {
         </p>
         <p className="mt-6">Learning Management System</p>
       </div>
-      <p className="pb-2">copyright, 2022</p>
+      <p className="pb-2">copyright &copy; 2022</p>
     </div>
   );
 };
