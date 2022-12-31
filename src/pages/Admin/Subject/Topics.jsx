@@ -46,13 +46,13 @@ const AdminTopics = () => {
         </button>
         <div className="mt-7 grid grid-cols-4 gap-5">
           {subjects.map((sub, idx) => (
-            <div key={idx} className="">
+            <div key={idx} className="w-full">
               <button
                 // onClick={() => navigate("/admin/subject/topics")}
-                className="flex gap-2 mb-7 items-center"
+                className="w-full flex gap-2 mb-7 items-center"
               >
                 <input className="" type={"checkbox"} />
-                <p className="text-base bg-white py-2 px-3 rounded font-semibold">
+                <p className="flex-1 text-left text-base bg-white py-2 px-3 rounded font-semibold">
                   {sub}{" "}
                 </p>
               </button>

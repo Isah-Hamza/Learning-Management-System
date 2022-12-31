@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../assets/images/image 1 (1).png";
 import user from "../assets/images/user.png";
 import { BsFillCaretDownFill, BsSearch, BsStack } from "react-icons/bs";
@@ -16,39 +16,53 @@ const DashboardLayout = ({ children }) => {
     {
       title: "Dashboard",
       url: "/admin/dashboard",
-      icon: <RxDashboard />
+      icon: <RxDashboard />,
+      id: "dashboard"
     },
     {
       title: "Subject",
       url: "/admin/subjects",
-      icon: <GiBlackBook size={18} />
+      icon: <GiBlackBook size={18} />,
+      id: "subject"
     },
     {
       title: "Student",
       url: "/admin/students",
-      icon: <HiOutlineUserGroup size={20} />
+      icon: <HiOutlineUserGroup size={20} />,
+      id: "student"
     },
     {
       title: "Teacher",
       url: "/admin/teachers",
-      icon: <HiOutlineUsers size={20} />
+      icon: <HiOutlineUsers size={20} />,
+      id: "teacher"
     },
     {
       title: "My Account",
-      url: "/my-account",
-      icon: <RiUser3Line />
+      url: "/admin/my-account",
+      icon: <RiUser3Line />,
+      id: "account"
     },
     {
       title: "Tools",
-      url: "/tools",
-      icon: <BsStack />
+      url: "/admin/tools",
+      icon: <BsStack />,
+      id: "tool"
     },
     {
       title: "Support and Help",
-      url: "/support",
-      icon: <MdOutlineLiveHelp />
+      url: "/admin/support",
+      icon: <MdOutlineLiveHelp />,
+      id: "support"
     }
   ];
+
+  const [activeLink, setActiveLink] = useState(() => {
+    const url = window.location.pathname.split("/")[2];
+    return url;
+  });
+
+  console.log(activeLink);
 
   const handleNavigate = (url) => {
     if (url) navigate(url);
@@ -56,7 +70,7 @@ const DashboardLayout = ({ children }) => {
 
   return (
     <div className="flex h-screen bg-[#f9fafb]">
-      <aside className="pb-4 w-[22%] flex flex-col h-full bg-white pt-10 px-6">
+      <aside className="pb-5 w-[22%] flex flex-col h-full bg-white pt-10 px-6">
         <div>
           <img className="w-20 mx-auto" src={logo} />
         </div>
@@ -66,14 +80,20 @@ const DashboardLayout = ({ children }) => {
               onClick={() => handleNavigate(item.url)}
               role={"button"}
               key={idx}
-              className="transition-all duration-500 pl-[4.5vw] text-[15px] hover:font-semibold hover:bg-[#EBF5FF] hover:text-[#0072EA] py-2.5 mt-3 w-full flex items-center gap-3 "
+              className={`${
+                activeLink.includes(item.id) &&
+                "font-semibold bg-[#EBF5FF] text-[#0072EA]"
+              } transition-all duration-500 pl-[4.5vw] text-[15px] hover:bg-[#EBF5FF]/30 hover:text-[#0072EA]/80 py-2.5 mt-3 w-full flex items-center gap-3 `}
             >
               <span> {item.icon}</span>
               {item.title}
             </li>
           ))}
         </div>
-        <button className="mt-auto text-sm font-semibold mx-auto max-w-[250px] w-full py-3 rounded bg-[#FCF3DE] text-[#FF8F0B] ">
+        <button
+          onClick={() => navigate("/admin/subscriptions")}
+          className="mt-auto text-sm font-semibold mx-auto max-w-[250px] w-full py-3 rounded bg-[#FCF3DE] text-[#FF8F0B] "
+        >
           Subscription Plans
         </button>
       </aside>

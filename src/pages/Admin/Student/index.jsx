@@ -8,7 +8,14 @@ import AddStudent from "./AddStudent";
 import EditStudent from "./EditStudent";
 import ViewStudentDetails from "./ViewStudentDetails";
 
-export const CustomInput = ({ label, name, type, readOnly, defaultValue }) => {
+export const CustomInput = ({
+  label,
+  name,
+  type,
+  readOnly,
+  defaultValue,
+  ...rest
+}) => {
   return (
     <div className="flex flex-col gap-1 text-sm">
       <label className="font-semibold " htmlFor={name}>
@@ -22,6 +29,7 @@ export const CustomInput = ({ label, name, type, readOnly, defaultValue }) => {
         type={type || "text"}
         name={name}
         defaultValue={readOnly ? defaultValue : null}
+        {...rest}
       />
     </div>
   );
