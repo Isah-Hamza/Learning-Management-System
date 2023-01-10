@@ -69,7 +69,7 @@ const Support = () => {
           </div>
           <div className="bg-[#EBF5FF] p-10 mt-14">
             <button className="text-white text-sm bg-appcolor hover:bg-blue-800 rounded-md px-5 py-2 transition-all duration-500 ease-in-out ">
-              Contact Admin
+              Contact Developer
             </button>{" "}
           </div>
         </div>

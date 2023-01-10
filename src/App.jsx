@@ -21,6 +21,14 @@ import AdminTools from "./pages/Admin/Tools/index.jsx";
 import Login from "./pages/Login";
 import NewPassword from "./pages/NewPassword";
 import ResetPassword from "./pages/ResetPassword";
+import StudentAssignment from "./pages/Student/Assignment";
+import AssignmentPage from "./pages/Student/Assignment/SubjectPage";
+import StudentClassroom from "./pages/Student/Classroom";
+import StudentDashboard from "./pages/Student/Dashboard/index.jsx";
+import StudentAccount from "./pages/Student/MyAccount";
+import StudentSubject from "./pages/Student/Subject";
+import SubjectPage from "./pages/Student/Subject/SubjectPage";
+import StudentTools from "./pages/Student/Tools";
 import VerifyAccount from "./pages/VerifyAccount";
 
 function App() {
@@ -51,6 +59,19 @@ function App() {
         <Route path="/admin/tools" element={<AdminTools />} />
         <Route path="/admin/support" element={<Support />} />
         <Route path="/admin/subscriptions" element={<Subscription />} />
+
+        {/* student routes */}
+        <Route path="/student/dashboard" element={<StudentDashboard />} />
+        <Route path="/student/subjects" element={<StudentSubject />} />
+        <Route path="/student/subject/:subjectName" element={<SubjectPage />} />
+        <Route path="/student/assignment" element={<StudentAssignment />} />
+        <Route
+          path="/student/assignment/:assignmentName"
+          element={<AssignmentPage />}
+        />
+        <Route path="/student/classroom" element={<StudentClassroom />} />
+        <Route path="/student/my-account" element={<StudentAccount />} />
+        <Route path="/student/tools" element={<StudentTools />} />
       </Routes>
     </div>
   );
