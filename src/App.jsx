@@ -2,11 +2,15 @@ import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import AccountSelection from "./pages/AccountSelection";
 import AdminDashboard from "./pages/Admin/Dashboard";
+import ForensicInvestigator from "./pages/Admin/ForensicInvestigator";
+import LogDetails from "./pages/Admin/ForensicInvestigator/LogDetails";
 import MyAccount from "./pages/Admin/MyAccount";
 import AdminStudents from "./pages/Admin/Student";
 import AddStudent from "./pages/Admin/Student/AddStudent";
 import EditStudent from "./pages/Admin/Student/EditStudent";
 import ViewStudentDetails from "./pages/Admin/Student/ViewStudentDetails";
+import StudentProfiler from "./pages/Admin/StudentProfiler";
+import StudentInformation from "./pages/Admin/StudentProfiler/StudentInformation";
 import AdminSubject from "./pages/Admin/Subject";
 import AddNewSubject from "./pages/Admin/Subject/AddNewSubject";
 import AdminClass from "./pages/Admin/Subject/Class";
@@ -28,6 +32,7 @@ import StudentDashboard from "./pages/Student/Dashboard/index.jsx";
 import StudentAccount from "./pages/Student/MyAccount";
 import StudentSubject from "./pages/Student/Subject";
 import SubjectPage from "./pages/Student/Subject/SubjectPage";
+import TextSummarizer from "./pages/Student/TextSummarizer";
 import StudentTools from "./pages/Student/Tools";
 import VerifyAccount from "./pages/VerifyAccount";
 
@@ -57,7 +62,20 @@ function App() {
 
         <Route path="/admin/my-account" element={<MyAccount />} />
         <Route path="/admin/tools" element={<AdminTools />} />
-        <Route path="/admin/support" element={<Support />} />
+        <Route path="/admin/profiler" element={<StudentProfiler />} />
+        <Route
+          path="/admin/profiler/student-profile"
+          element={<StudentInformation />}
+        />
+        <Route path="/admin/support" element={<Support userType={"admin"} />} />
+        <Route
+          path="/admin/forensic-investigator"
+          element={<ForensicInvestigator />}
+        />
+        <Route
+          path="/admin/forensic-investigator/:id"
+          element={<LogDetails />}
+        />
         <Route path="/admin/subscriptions" element={<Subscription />} />
 
         {/* student routes */}
@@ -72,6 +90,11 @@ function App() {
         <Route path="/student/classroom" element={<StudentClassroom />} />
         <Route path="/student/my-account" element={<StudentAccount />} />
         <Route path="/student/tools" element={<StudentTools />} />
+        <Route
+          path="/student/support"
+          element={<Support userType={"student"} />}
+        />
+        <Route path="/student/text-summarizer" element={<TextSummarizer />} />
       </Routes>
     </div>
   );

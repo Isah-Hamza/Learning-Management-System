@@ -8,10 +8,10 @@ import {
   BsStack
 } from "react-icons/bs";
 import { GiBlackBook } from "react-icons/gi";
-
+import { BiRefresh } from "react-icons/bi";
 import { RxDashboard } from "react-icons/rx";
 import { RiUser3Line } from "react-icons/ri";
-import { HiOutlineUserGroup, HiOutlineUsers } from "react-icons/hi";
+import { HiOutlineUserGroup } from "react-icons/hi";
 import { MdOutlineLiveHelp } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
@@ -55,6 +55,12 @@ const StudentDashboardLayout = ({ children, readingPage }) => {
       id: "tool"
     },
     {
+      title: "Text Summarizer",
+      url: "/student/text-summarizer",
+      icon: <BiRefresh size={22} />,
+      id: "text-summarizer"
+    },
+    {
       title: "Support and Help",
       url: "/student/support",
       icon: <MdOutlineLiveHelp />,
@@ -73,7 +79,7 @@ const StudentDashboardLayout = ({ children, readingPage }) => {
 
   return (
     <div className="flex h-screen bg-[#f9fafb]">
-      <aside className="py-5 w-[22%] flex flex-col h-full bg-white px-6">
+      <aside className="max-h-screen overflow-y-auto py-5 w-[22%] flex flex-col h-full bg-white px-6">
         <div>
           <img className="w-20 mx-auto" src={logo} />
         </div>
@@ -81,7 +87,7 @@ const StudentDashboardLayout = ({ children, readingPage }) => {
           <p className="font-semibold">Student ID:</p>
           <p>M1602200</p>
         </div>
-        <div className="mt-7 ">
+        <div className="mt-7 mb-10">
           {sidebarItmes.map((item, idx) => (
             <li
               onClick={() => handleNavigate(item.url)}
@@ -90,7 +96,7 @@ const StudentDashboardLayout = ({ children, readingPage }) => {
               className={`${
                 activeLink.includes(item.id) &&
                 "font-semibold bg-[#EBF5FF] text-[#0072EA]"
-              } transition-all duration-500 pl-[4.5vw] text-[15px] hover:bg-[#EBF5FF]/30 hover:text-[#0072EA]/80 py-2.5 mt-3 w-full flex items-center gap-3 `}
+              } transition-all duration-500 pl-[3vw] text-[15px] hover:bg-[#EBF5FF]/30 hover:text-[#0072EA]/80 py-2.5 mt-3 w-full flex items-center gap-3 `}
             >
               <span> {item.icon}</span>
               {item.title}
@@ -98,10 +104,10 @@ const StudentDashboardLayout = ({ children, readingPage }) => {
           ))}
         </div>
         <button
-          onClick={() => navigate("/admin/subscriptions")}
+          onClick={() => navigate("#")}
           className="mt-auto text-sm font-semibold mx-auto max-w-[250px] w-full py-3 rounded bg-[#FCF3DE] text-[#FF8F0B] "
         >
-          
+          Logout
         </button>
       </aside>
       <div

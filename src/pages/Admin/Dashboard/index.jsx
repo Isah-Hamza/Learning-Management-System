@@ -3,7 +3,6 @@ import DashboardLayout from "../../../Layout/dashboardLayout";
 import { CustomSelect } from "../Student";
 // import CanvasJSReact from '../../../canvas/canvasjs.react';
 
-
 const AdminDashboard = () => {
   const analytics = [
     {
