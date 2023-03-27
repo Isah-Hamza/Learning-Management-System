@@ -159,9 +159,8 @@ const DashboardLayout = ({ children }) => {
               </p>
               <div>
                 {item.subTitle.map((sub, idx) => (
-                  <>
+                  <div key={idx}>
                     <p
-                      key={idx}
                       className="flex justify-between items-center text-base font-semibold pl-[3vw] hover:text-[#0072EA]/80 hover:bg-[#EBF5FF]/30 py-2.5 pr-5"
                     >
                       <span>{sub.title}</span>
@@ -183,7 +182,7 @@ const DashboardLayout = ({ children }) => {
                         </li>
                       ))}
                     </ul>
-                  </>
+                  </div>
                 ))}
               </div>
             </li>

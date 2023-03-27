@@ -7,10 +7,21 @@ import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 import { CustomSelect } from "../Student";
 import ActivityCard from "../../../components/ActivityCard";
 import { BiCloudDownload } from "react-icons/bi";
+import Chart from "../../../components/Chart";
+import { BarChart } from "recharts";
+import BarChartExample from "../../../components/Chart/BarChart";
+import PieChartExample from "../../../components/Chart/PieChart";
 
 const StudentInformation = () => {
   const [userActivities, setActivities] = useState([1, 2, 3, 4, 5]);
   const paginations = ["1", "2", "3", "4", "5"];
+
+  const chartLegend = [
+    { name: "Mathematics", color: "#0072EA" },
+    { name: "English", color: "#00C49F" },
+    { name: "Chemistry", color: "#EBF5FF" },
+    { name: "Physics", color: "#F08C00" }
+  ];
 
   const navigate = useNavigate();
   const goBack = () => navigate(-1);
@@ -96,9 +107,8 @@ const StudentInformation = () => {
                 ]}
               />
             </div>
-            <div className="w-full h-40 bg-white rounded mt-3 grid place-content-center font-semibold">
-              {" "}
-              Graph Here.
+            <div className="mt-3 ">
+              <Chart height={200} />
             </div>
           </div>
         </div>
@@ -123,8 +133,8 @@ const StudentInformation = () => {
             />
           </div>
         </div>
-        <div className="font-semibold w-full h-64 bg-white rounded-md grid place-content-center text-center">
-          Bar chart here.
+        <div className="">
+          <BarChartExample />
         </div>
         <div className="mt-3 flex items-center justify-between">
           <p className="font-semibold text-lg">Hours spent per subject</p>
@@ -147,8 +157,21 @@ const StudentInformation = () => {
             />
           </div>
         </div>
-        <div className="font-semibold w-full h-64 bg-white rounded-md grid place-content-center text-center">
-          Bar chart here.
+        <div className="flex items-center gap-10">
+          <PieChartExample />
+          <div className="grid gap-1">
+            {chartLegend.map((item, idx) => {
+              return (
+                <div key={idx} className="flex gap-1 items-center">
+                  <div
+                    className="w-2 h-2 "
+                    style={{ background: item.color }}
+                  ></div>
+                  <p>{item.name}</p>
+                </div>
+              );
+            })}
+          </div>
         </div>
         <div>
           <div className="flex justify-between items-end">
