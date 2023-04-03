@@ -36,6 +36,9 @@ import TextSummarizer from "./pages/Student/TextSummarizer";
 import StudentTools from "./pages/Student/Tools";
 import VerifyAccount from "./pages/VerifyAccount";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function App() {
   return (
     <div className="App">
@@ -96,6 +99,7 @@ function App() {
         />
         <Route path="/student/text-summarizer" element={<TextSummarizer />} />
       </Routes>
+      <ToastContainer />
     </div>
   );
 }

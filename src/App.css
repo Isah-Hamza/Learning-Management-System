@@ -1,0 +1,16 @@
+/* width */
+aside::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+aside::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+aside::-webkit-scrollbar-thumb {
+  background: #1b4a7c;
+  border-radius: 10px;
+}

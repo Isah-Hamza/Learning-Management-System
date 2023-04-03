@@ -1,24 +1,81 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Chart from "../../../components/Chart";
 import DashboardLayout from "../../../Layout/dashboardLayout";
 import { CustomSelect } from "../Student";
-// import CanvasJSReact from '../../../canvas/canvasjs.react';
+import { useAdmin } from "../../../hooks/useAdmin";
+import { useCurriculum } from "../../../hooks/useCurriculum";
+import Loader from "../../../components/Loader";
+import { getAllSubjects } from "../../../services/curriculum";
 
 const AdminDashboard = () => {
+  const { handleGetTotalStudents, handleGetTotalTeachers } = useAdmin();
+  const { handleGetAllSubjects } = useCurriculum();
+  const [data, setData] = useState({
+    student: null,
+    teacher: null,
+    subject: null
+  });
+  const [loading, setLoading] = useState(false);
   const analytics = [
     {
       title: "Total Number of Students",
-      value: "8,298"
+      value: data?.student
     },
     {
       title: "Total Number of Teachers",
-      value: "567"
+      value: data?.teacher
     },
     {
-      title: "Total Number of Courses",
-      value: "203"
+      title: "Total Number of Subjects",
+      value: data?.subject
     }
   ];
+
+  const getTotalStudents = () => {
+    setLoading(true);
+    handleGetTotalStudents()
+      .then((res) =>
+        setData((prev) => ({ ...prev, student: res.data.data.total_students }))
+      )
+      .catch((err) => console.log(err))
+      .finally(() => setLoading(false));
+  };
+
+  const getTotalTeachers = () => {
+    setLoading(true);
+    handleGetTotalTeachers()
+      .then((res) =>
+        setData((prev) => ({ ...prev, teacher: res.data.data.total_teachers }))
+      )
+      .catch((err) => console.log(err))
+      .finally(() => setLoading(false));
+  };
+
+  const getAllSubjects = () => {
+    setLoading(true);
+    handleGetAllSubjects()
+      .then(
+        (res) => {
+          console.log(res.data.data.length);
+          setData((prev) => ({ ...prev, subject: res?.data?.data?.length }));
+        }
+        // (res) => console.log(res)
+      )
+      .catch((err) => console.log(err))
+      .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    getTotalStudents();
+    getTotalTeachers();
+    getAllSubjects();
+  }, []);
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  console.log(data);
 
   return (
     <DashboardLayout>

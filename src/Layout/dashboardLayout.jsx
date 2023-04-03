@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import logo from "../assets/images/image 1 (1).png";
 import user from "../assets/images/user.png";
 import { BsFillCaretDownFill, BsSearch, BsStack } from "react-icons/bs";
@@ -13,6 +13,8 @@ import arrowCircleDown from "../assets/images/arrow-circle-down.png";
 
 const DashboardLayout = ({ children }) => {
   const navigate = useNavigate();
+  const parentRef = useRef(null);
+  const buttonRef = useRef(null);
   const sidebarItmes = [
     {
       title: "Home",
@@ -138,6 +140,17 @@ const DashboardLayout = ({ children }) => {
     if (url) navigate(url);
   };
 
+  const handleToggleCollapse = (e) => {
+    console.log(parent.clientHeight);
+    const parentElem = e.target.closest("div");
+    const parentHeight = parentElem.clientHeight;
+
+    if (parentHeight > 45) {
+      parentElem.dataset.height = `${parentHeight}px`;
+      parentElem.style.height = `45px`;
+    } else parentElem.style.height = `${parentElem.dataset.height}`;
+  };
+
   return (
     <div className="flex h-screen bg-[#f9fafb]">
       <aside className="max-h-screen overflow-y-auto pb-5 w-[22%] flex flex-col h-full bg-white pt-10 px-6">
@@ -159,8 +172,15 @@ const DashboardLayout = ({ children }) => {
               </p>
               <div>
                 {item.subTitle.map((sub, idx) => (
-                  <div key={idx}>
+                  <div
+                    ref={parentRef}
+                    className="parent overflow-y-hidden transition-all duration-300 ease-in-out"
+                    key={idx}
+                  >
                     <p
+                      onClick={handleToggleCollapse}
+                      ref={buttonRef}
+                      role={"button"}
                       className="flex justify-between items-center text-base font-semibold pl-[3vw] hover:text-[#0072EA]/80 hover:bg-[#EBF5FF]/30 py-2.5 pr-5"
                     >
                       <span>{sub.title}</span>
