@@ -1,8 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { CustomInput, CustomSelect } from ".";
 import teacher from "../../../assets/images/teacher.png";
 import DashboardLayout from "../../../Layout/dashboardLayout";
+import { CustomInput, CustomSelect } from "../Student";
 
 const ViewTeacherDetails = () => {
   const navigate = useNavigate();

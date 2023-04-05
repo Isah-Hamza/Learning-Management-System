@@ -16,6 +16,13 @@ import { MdOutlineLiveHelp } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
 const StudentDashboardLayout = ({ children, readingPage }) => {
+  const username = window.localStorage.getItem("username");
+
+  const handleLogout = () => {
+    window.localStorage.removeItem("username");
+    window.localStorage.removeItem("token");
+    navigate("/login");
+  };
   const navigate = useNavigate();
   const sidebarItmes = [
     {
@@ -85,7 +92,7 @@ const StudentDashboardLayout = ({ children, readingPage }) => {
         </div>
         <div className="flex items-center gap-1 text-sm justify-center mt-3">
           <p className="font-semibold">Student ID:</p>
-          <p>M1602200</p>
+          <p className="capitalize">{username}</p>
         </div>
         <div className="mt-7 mb-10">
           {sidebarItmes.map((item, idx) => (
@@ -104,7 +111,7 @@ const StudentDashboardLayout = ({ children, readingPage }) => {
           ))}
         </div>
         <button
-          onClick={() => navigate("#")}
+          onClick={handleLogout}
           className="mt-auto text-sm font-semibold mx-auto max-w-[250px] w-full py-3 rounded bg-[#FCF3DE] text-[#FF8F0B] "
         >
           Logout

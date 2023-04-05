@@ -33,12 +33,13 @@ export const CustomInput = ({
         } p-3 px-4  rounded border outline-none w-full`}
         type={type || "text"}
         name={name}
-        defaultValue={readOnly ? defaultValue : null}
+        defaultValue={defaultValue || null}
         {...rest}
       />
     </div>
   );
 };
+
 export const CustomSelect = ({
   aClass,
   label,
@@ -76,7 +77,7 @@ export const CustomSelect = ({
   );
 };
 
-const NoData = ({ setNewStudent }) => {
+export const NoData = ({ setNewStudent, text, url }) => {
   const navigate = useNavigate();
   return (
     <div className="h-[calc(100vh-85px)] flex flex-col justify-center items-center">
@@ -84,10 +85,10 @@ const NoData = ({ setNewStudent }) => {
       <p>No record found!!!</p>
       <button
         // onClick={() => setNewStudent(true)}
-        onClick={() => navigate("/admin/new-student")}
+        onClick={() => navigate(url ?? "/admin/new-student")}
         className="text-blue-800 underline text-xs font-medium px-5 py-1 rounded"
       >
-        Add new students
+        {text ?? "Add new students"}
       </button>
     </div>
   );
@@ -95,51 +96,14 @@ const NoData = ({ setNewStudent }) => {
 
 const AdminStudents = () => {
   const navigate = useNavigate();
-  const { handleGetAllStudents } = useStudent();
+  const { handleGetAllStudents, handleDeleteStudent } = useStudent();
   const [newStudent, setNewStudent] = useState(false);
   const [editStudent, setEditStudent] = useState(false);
   const [viewDetails, setViewDetails] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const paginations = ["1", "2", "3", "4", "5"];
   const tableHeader = ["Student ID", "Student Name", "Class", "Status", null];
-  const students = [
-    {
-      student_id: "M1602200",
-      student_name: "Bello Abdulqudus",
-      class: "ss3",
-      status: "online"
-    },
-    {
-      student_id: "M1602200",
-      student_name: "Bello Abdulqudus",
-      class: "ss3",
-      status: "online"
-    },
-    {
-      student_id: "M1602200",
-      student_name: "Bello Abdulqudus",
-      class: "ss3",
-      status: "online"
-    },
-    {
-      student_id: "M1602200",
-      student_name: "Bello Abdulqudus",
-      class: "ss3",
-      status: "online"
-    },
-    {
-      student_id: "M1602200",
-      student_name: "Bello Abdulqudus",
-      class: "ss3",
-      status: "online"
-    },
-    {
-      student_id: "M1602200",
-      student_name: "Bello Abdulqudus",
-      class: "ss3",
-      status: "online"
-    }
-  ];
 
   const [allStudents, setAllStudent] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -153,6 +117,17 @@ const AdminStudents = () => {
       })
       .catch((err) => console.log(err))
       .finally(() => setLoading(false));
+  };
+
+  const deleteStudent = ({ id }) => {
+    handleDeleteStudent({ id })
+      .then((res) => {
+        toast.success("Student record deleted Successfully", {
+          theme: "colored"
+        });
+        getAllStudents();
+      })
+      .catch((err) => toast.error("Error " + err, { theme: "colored" }));
   };
 
   useEffect(() => {
@@ -203,7 +178,7 @@ const AdminStudents = () => {
                     </div>
                   </div>
                 </div>
-                <div className="w-full mt-8">
+                <div className="w-full my-8">
                   <table className="w-full">
                     <thead>
                       <tr>
@@ -227,13 +202,17 @@ const AdminStudents = () => {
                         >
                           <td className="py-4 pl-10">{student.student_id}</td>
                           <td className="py-4">{student.full_name}</td>
-                          <td className="py-4">{student.class || "Null"}</td>
+                          <td className="py-4">
+                            {student.class?.name || "Null"}
+                          </td>
                           <td className="py-4">{student.enrollment_status}</td>
                           <td className="py-4">
                             <div className="flex items-center justify-center gap-3 text-sm">
                               <p
                                 onClick={() =>
-                                  navigate("/admin/student-details")
+                                  navigate("/admin/student-details", {
+                                    state: { id: student.user_id }
+                                  })
                                 }
                                 role={"button"}
                                 className="hover:underline text-green-800"
@@ -243,7 +222,9 @@ const AdminStudents = () => {
                               |
                               <p
                                 onClick={() =>
-                                  navigate("/admin/edit-student-details")
+                                  navigate("/admin/edit-student-details", {
+                                    state: { id: student.user_id }
+                                  })
                                 }
                                 role={"button"}
                                 className="hover:underline text-[#ffb966]"
@@ -254,6 +235,9 @@ const AdminStudents = () => {
                               <p
                                 role={"button"}
                                 className="hover:underline text-[coral]"
+                                onClick={() =>
+                                  deleteStudent({ id: student.id })
+                                }
                               >
                                 Delete
                               </p>

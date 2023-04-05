@@ -1,12 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import AuthLayout from "../../Layout/auth";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { handleLogin } = useAuth();
+  const [data, setData] = useState({ username: null, password: null });
+  const [loading, setLoading] = useState(false);
 
   const handleNavigate = () => {
     navigate("/reset-password");
+  };
+
+  const login = () => {
+    setLoading(true);
+    handleLogin(data)
+      .then((res) => {
+        window.localStorage.setItem("username", res.data.data.username);
+        window.localStorage.setItem("token", res.data.data.token);
+        toast.success("Logged In Successfully", { theme: "colored" });
+        if (res.data.data.role === "student")
+          navigate("/student/dashboard", { replace: true });
+        if (res.data.data.role === "admin")
+          navigate("/admin/dashboard", { replace: true });
+        console.log(res);
+      })
+      .catch((err) => {
+        toast.error("Invalid username and / or password", { theme: "colored" });
+      })
+      .finally(() => setLoading(false));
+  };
+
+  const handleSubmit = () => {
+    console.log(data);
+    login();
   };
 
   return (
@@ -22,6 +51,9 @@ const Login = () => {
               className="border outline-none px-3 py-2 rounded-none"
               type={"text"}
               placeholder="M1500600"
+              onChange={(e) => {
+                setData((prev) => ({ ...prev, username: e.target.value }));
+              }}
             />
           </div>
           <div className="grid">
@@ -32,6 +64,9 @@ const Login = () => {
               className="border outline-none px-3 py-2 rounded-none"
               type={"password"}
               placeholder="***********"
+              onChange={(e) => {
+                setData((prev) => ({ ...prev, password: e.target.value }));
+              }}
             />
           </div>
           <div className="flex items-center gap-2 -mt-3 ">
@@ -43,8 +78,13 @@ const Login = () => {
             />
             <label htmlFor="save_password">Save Password</label>
           </div>
-          <button className="text-white bg-appcolor py-2.5 rounded mt-4">
-            Login into Account
+          <button
+            onClick={handleSubmit}
+            type="button"
+            disabled={loading || !data.password || !data.username}
+            className="disabled:bg-opacity-60 text-white bg-appcolor py-2.5 rounded mt-4"
+          >
+            {loading ? "Logging In..." : "Login into Account"}
           </button>
           <p className="text-sm text-center -mt-3">
             Forgot password ?{" "}

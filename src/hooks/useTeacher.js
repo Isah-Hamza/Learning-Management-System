@@ -1,15 +1,15 @@
 import {
-  getAllStudents,
-  createStudent,
-  viewStudent,
-  updateStudent,
-  deleteStudent
-} from "../services/student";
+  getAllTeachers,
+  createTeacher,
+  deleteTeacher,
+  updateTeacher,
+  viewTeacher
+} from "../services/teacher";
 
-export const useStudent = () => {
-  const handleGetAllStudents = () => {
+export const useTeacher = () => {
+  const handleGetAllTeachers = () => {
     return new Promise((resolve, reject) => {
-      getAllStudents()
+      getAllTeachers()
         .then((res) => {
           resolve(res);
         })
@@ -17,9 +17,9 @@ export const useStudent = () => {
     });
   };
 
-  const handleCreateStudent = (data) => {
+  const handleCreateTeacher = (data) => {
     return new Promise((resolve, reject) => {
-      createStudent(data)
+      createTeacher(data)
         .then((res) => {
           resolve(res);
         })
@@ -27,9 +27,9 @@ export const useStudent = () => {
     });
   };
 
-  const handleViewStudent = ({ id }) => {
+  const handleViewTeacher = ({ id }) => {
     return new Promise((resolve, reject) => {
-      viewStudent({ id })
+      viewTeacher({ id })
         .then((res) => {
           resolve(res);
         })
@@ -37,9 +37,9 @@ export const useStudent = () => {
     });
   };
 
-  const handleUpdateStudent = ({ id, data }) => {
+  const handleUpdateTeacher = ({ id, data }) => {
     return new Promise((resolve, reject) => {
-      updateStudent({ id, data })
+      updateTeacher({ id, data })
         .then((res) => {
           resolve(res);
         })
@@ -47,9 +47,9 @@ export const useStudent = () => {
     });
   };
 
-  const handleDeleteStudent = ({ id }) => {
+  const handleDeleteTeacher = ({ id }) => {
     return new Promise((resolve, reject) => {
-      deleteStudent({ id })
+      deleteTeacher({ id })
         .then((res) => {
           resolve(res);
         })
@@ -58,10 +58,10 @@ export const useStudent = () => {
   };
 
   return {
-    handleGetAllStudents,
-    handleCreateStudent,
-    handleViewStudent,
-    handleUpdateStudent,
-    handleDeleteStudent
+    handleGetAllTeachers,
+    handleCreateTeacher,
+    handleViewTeacher,
+    handleDeleteTeacher,
+    handleUpdateTeacher
   };
 };

@@ -1,9 +1,10 @@
 import React from "react";
 import { RiRefreshFill, RiRefreshLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import { CustomInput, CustomSelect } from ".";
+// import { CustomInput, CustomSelect } from ".";
 import teacher from "../../../assets/images/teacher.png";
 import DashboardLayout from "../../../Layout/dashboardLayout";
+import { CustomInput, CustomSelect } from "../Student";
 
 const EditTeacher = () => {
   const navigate = useNavigate();
