@@ -8,6 +8,7 @@ import moment from "moment";
 import Loader from "../../../components/Loader";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
+import { viewTeacher } from "../../../services/teacher";
 
 const EditStudent = () => {
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ const EditStudent = () => {
         toast.success("Successfully edited student details", {
           theme: "colored"
         });
-        viewStudent({ id: state?.id });
+        viewTeacher({ id: state?.id });
       })
       .catch((e) => toast.error("Error" + e, { theme: "colored" }))
       .finally(() => setUpdateLoding(false));
@@ -172,9 +173,9 @@ const EditStudent = () => {
                         {...formik.getFieldProps("enrollment_status")}
                         label="Enrollment Status"
                         options={[
-                          { title: "new", value: "New" },
-                          { title: "Hi", value: "hi" },
-                          { title: "Hello", value: "hello" }
+                          { title: "New Student", value: 1 },
+                          { title: "Old Student", value: 2 }
+                          // { title: "Hello", value: "hello" }
                         ]}
                         defaultValue={details?.enrollment_status}
                       />

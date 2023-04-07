@@ -12,6 +12,9 @@ import ViewStudentDetails from "./ViewStudentDetails";
 import noData from "../../../assets/images/no-data.png";
 
 import { ToastContainer, toast } from "react-toastify";
+import { ApiEndpoints } from "../../../api/api";
+import axios from "axios";
+import { ImSpinner2 } from "react-icons/im";
 
 export const CustomInput = ({
   label,
@@ -96,7 +99,8 @@ export const NoData = ({ setNewStudent, text, url }) => {
 
 const AdminStudents = () => {
   const navigate = useNavigate();
-  const { handleGetAllStudents, handleDeleteStudent } = useStudent();
+  const { handleGetAllStudents, handleDeleteStudent, handleDownloadStudent } =
+    useStudent();
   const [newStudent, setNewStudent] = useState(false);
   const [editStudent, setEditStudent] = useState(false);
   const [viewDetails, setViewDetails] = useState(false);
@@ -107,7 +111,7 @@ const AdminStudents = () => {
 
   const [allStudents, setAllStudent] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const [downloading, setDownloading] = useState(false);
   const getAllStudents = () => {
     setLoading(true);
     handleGetAllStudents()
@@ -130,158 +134,199 @@ const AdminStudents = () => {
       .catch((err) => toast.error("Error " + err, { theme: "colored" }));
   };
 
+  const downloadRecord = () => {
+    setDownloading(true);
+    axios({
+      url: ApiEndpoints.STUDENTS.DOWNLOAD_STUDENTS,
+      method: "GET",
+      responseType: "blob",
+      headers: {
+        Authorization: `Bearer ${window.localStorage.getItem("token")}`
+      }
+    })
+      .then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "students.csv");
+        document.body.appendChild(link);
+        link.click();
+      })
+      .catch((error) => {
+        console.error("Error downloading CSV file:", error);
+      })
+      .finally(() => setDownloading(false));
+  };
+
   useEffect(() => {
     getAllStudents();
   }, []);
 
-  if (loading) {
-    return <Loader />;
-  }
-
   return (
     <>
       <DashboardLayout>
-        {allStudents.length ? (
-          <div className="mt-10 flex-1">
-            {!newStudent && !editStudent && !viewDetails && (
-              <div className="h-full flex flex-col">
-                <p className="text-xl font-semibold">Students' Information</p>
-                <div className="mt-3">
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-2">
-                      <div className="relative ">
-                        <BsSearch
-                          size={18}
-                          className="absolute top-1/2 left-4 -translate-y-1/2"
-                        />
-                        <input
-                          placeholder="search for students"
-                          type={"text"}
-                          className="w-[300px] rounded px-6 pl-11 py-2 border outline-none"
-                        />
-                      </div>
-                      <button className="font-semibold border text-appcolor border-appcolor py-1.5 px-5 text-sm rounded">
-                        Sort by
-                      </button>
-                    </div>
-                    <div className="flex gap-3">
-                      <button className="font-semibold border text-appcolor flex items-center gap-2 py-2.5 px-5 text-sm rounded">
-                        <IoMdCloudDownload size={18} />
-                        Download Record
-                      </button>{" "}
-                      <button
-                        onClick={() => navigate("/admin/new-student")}
-                        className="font-semibold bg-appcolor text-white py-2.5 px-5 text-sm rounded"
-                      >
-                        + Add Student
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div className="w-full my-8">
-                  <table className="w-full">
-                    <thead>
-                      <tr>
-                        {tableHeader.map((item, idx) => (
-                          <th
-                            className={`${idx === 0 && "pl-10"} text-left`}
-                            key={idx}
-                          >
-                            {item ? item : ""}
-                          </th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {allStudents.map((student, idx) => (
-                        <tr
-                          className={`${
-                            idx % 2 === 1 ? "bg-white" : "bg-[#f5faff]"
-                          }  rounded-md`}
-                          key={idx}
-                        >
-                          <td className="py-4 pl-10">{student.student_id}</td>
-                          <td className="py-4">{student.full_name}</td>
-                          <td className="py-4">
-                            {student.class?.name || "Null"}
-                          </td>
-                          <td className="py-4">{student.enrollment_status}</td>
-                          <td className="py-4">
-                            <div className="flex items-center justify-center gap-3 text-sm">
-                              <p
-                                onClick={() =>
-                                  navigate("/admin/student-details", {
-                                    state: { id: student.user_id }
-                                  })
-                                }
-                                role={"button"}
-                                className="hover:underline text-green-800"
-                              >
-                                View
-                              </p>
-                              |
-                              <p
-                                onClick={() =>
-                                  navigate("/admin/edit-student-details", {
-                                    state: { id: student.user_id }
-                                  })
-                                }
-                                role={"button"}
-                                className="hover:underline text-[#ffb966]"
-                              >
-                                Edit
-                              </p>
-                              |
-                              <p
-                                role={"button"}
-                                className="hover:underline text-[coral]"
-                                onClick={() =>
-                                  deleteStudent({ id: student.id })
-                                }
-                              >
-                                Delete
-                              </p>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-                <div className="mt-auto">
-                  <div className="mt-10 flex items-center justify-between gap-10 text-sm">
-                    <div className="flex gap-3">
-                      {paginations.map((item, idx) => (
-                        <button
-                          className=" w-10 h-10 shadow font-semibold rounded-full bg-white grid place-content-center"
-                          key={idx}
-                        >
-                          {item}
-                        </button>
-                      ))}
-                    </div>
-                    <div className="flex items-center gap-4 ">
-                      <button className="font-semibold text-appcolor border border-appcolor py-1.5 px-5 text-sm rounded">
-                        Prev
-                      </button>{" "}
-                      <button className="font-semibold bg-appcolor text-white py-1.5 px-5 text-sm rounded">
-                        Next
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-            {editStudent && <EditStudent setEditStudent={setEditStudent} />}
-            {viewDetails && (
-              <ViewStudentDetails
-                setEditStudent={setEditStudent}
-                setViewDetails={setViewDetails}
-              />
-            )}
-          </div>
+        {loading ? (
+          <Loader />
         ) : (
-          <NoData setNewStudent={setNewStudent} />
+          <>
+            {allStudents.length ? (
+              <div className="mt-10 flex-1">
+                {!newStudent && !editStudent && !viewDetails && (
+                  <div className="h-full flex flex-col">
+                    <p className="text-xl font-semibold">
+                      Students' Information
+                    </p>
+                    <div className="mt-3">
+                      <div className="flex justify-between items-center">
+                        <div className="flex gap-2">
+                          <div className="relative ">
+                            <BsSearch
+                              size={18}
+                              className="absolute top-1/2 left-4 -translate-y-1/2"
+                            />
+                            <input
+                              placeholder="search for students"
+                              type={"text"}
+                              className="w-[300px] rounded px-6 pl-11 py-2 border outline-none"
+                            />
+                          </div>
+                          <button className="font-semibold border text-appcolor border-appcolor py-1.5 px-5 text-sm rounded">
+                            Sort by
+                          </button>
+                        </div>
+                        <div className="flex gap-3">
+                          <button
+                            disabled={downloading}
+                            onClick={downloadRecord}
+                            className="disabled:bg-opacity-70 font-semibold border text-appcolor flex items-center gap-2 py-2.5 px-5 text-sm rounded"
+                          >
+                            {downloading ? (
+                              <ImSpinner2 className="animate-spin" />
+                            ) : (
+                              <IoMdCloudDownload size={18} />
+                            )}
+
+                            {downloading ? "Downloading..." : "Download Record"}
+                          </button>{" "}
+                          <button
+                            onClick={() => navigate("/admin/new-student")}
+                            className="font-semibold bg-appcolor text-white py-2.5 px-5 text-sm rounded"
+                          >
+                            + Add Student
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="w-full my-8">
+                      <table className="w-full">
+                        <thead>
+                          <tr>
+                            {tableHeader.map((item, idx) => (
+                              <th
+                                className={`${idx === 0 && "pl-10"} text-left`}
+                                key={idx}
+                              >
+                                {item ? item : ""}
+                              </th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {allStudents.map((student, idx) => (
+                            <tr
+                              className={`${
+                                idx % 2 === 1 ? "bg-white" : "bg-[#f5faff]"
+                              }  rounded-md`}
+                              key={idx}
+                            >
+                              <td className="py-4 pl-10">
+                                {student.student_id}
+                              </td>
+                              <td className="py-4">{student.full_name}</td>
+                              <td className="py-4">
+                                {student.class?.name || "Null"}
+                              </td>
+                              <td className="py-4">
+                                {student.enrollment_status}
+                              </td>
+                              <td className="py-4">
+                                <div className="flex items-center justify-center gap-3 text-sm">
+                                  <p
+                                    onClick={() =>
+                                      navigate("/admin/student-details", {
+                                        state: { id: student.user_id }
+                                      })
+                                    }
+                                    role={"button"}
+                                    className="hover:underline text-green-800"
+                                  >
+                                    View
+                                  </p>
+                                  |
+                                  <p
+                                    onClick={() =>
+                                      navigate("/admin/edit-student-details", {
+                                        state: { id: student.user_id }
+                                      })
+                                    }
+                                    role={"button"}
+                                    className="hover:underline text-[#ffb966]"
+                                  >
+                                    Edit
+                                  </p>
+                                  |
+                                  <p
+                                    role={"button"}
+                                    className="hover:underline text-[coral]"
+                                    onClick={() =>
+                                      deleteStudent({ id: student.id })
+                                    }
+                                  >
+                                    Delete
+                                  </p>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                    <div className="mt-auto">
+                      <div className="mt-10 flex items-center justify-between gap-10 text-sm">
+                        <div className="flex gap-3">
+                          {paginations.map((item, idx) => (
+                            <button
+                              className=" w-10 h-10 shadow font-semibold rounded-full bg-white grid place-content-center"
+                              key={idx}
+                            >
+                              {item}
+                            </button>
+                          ))}
+                        </div>
+                        <div className="flex items-center gap-4 ">
+                          <button className="font-semibold text-appcolor border border-appcolor py-1.5 px-5 text-sm rounded">
+                            Prev
+                          </button>{" "}
+                          <button className="font-semibold bg-appcolor text-white py-1.5 px-5 text-sm rounded">
+                            Next
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {editStudent && <EditStudent setEditStudent={setEditStudent} />}
+                {viewDetails && (
+                  <ViewStudentDetails
+                    setEditStudent={setEditStudent}
+                    setViewDetails={setViewDetails}
+                  />
+                )}
+              </div>
+            ) : (
+              <NoData setNewStudent={setNewStudent} />
+            )}
+          </>
         )}
       </DashboardLayout>
     </>

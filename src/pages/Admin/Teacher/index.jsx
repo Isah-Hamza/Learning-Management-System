@@ -6,69 +6,9 @@ import DashboardLayout from "../../../Layout/dashboardLayout";
 import { useTeacher } from "../../../hooks/useTeacher";
 import Loader from "../../../components/Loader";
 import { NoData } from "../Student";
-
-// export const CustomInput = ({
-//   label,
-//   name,
-//   type,
-//   readOnly,
-//   defaultValue,
-//   props
-// }) => {
-//   return (
-//     <div className="flex flex-col gap-1 text-sm">
-//       <label className="font-semibold " htmlFor={name}>
-//         {label}
-//       </label>
-//       <input
-//         readOnly={readOnly}
-//         className={`${
-//           readOnly ? "bg-[#f1f3f5]" : "bg-transparent"
-//         } p-3 px-4  rounded border outline-none w-full`}
-//         type={type || "text"}
-//         name={name}
-//         defaultValue={defaultValue ? defaultValue : null}
-//         {...props}
-//       />
-//     </div>
-//   );
-// };
-// export const CustomSelect = ({
-//   aClass,
-//   label,
-//   name,
-//   options,
-//   readOnly,
-//   multiple
-// }) => {
-//   return (
-//     <div className={` flex flex-col gap-1 text-sm ${aClass}`}>
-//       <label className="font-semibold " htmlFor={name}>
-//         {label}
-//       </label>
-//       <div className="relative">
-//         <RxCaretDown
-//           size={18}
-//           className=" absolute right-[14px] top-1/2 -translate-y-1/2"
-//         />
-//         <select
-//           multiple={multiple ? true : false}
-//           disabled={readOnly}
-//           className={`${
-//             readOnly ? "bg-[#f1f3f5]" : "bg-transparent"
-//           } p-3 px-4 rounded border outline-none w-full appearance-none`}
-//           name={name}
-//         >
-//           {options.map((item, idx) => (
-//             <option key={idx} value={item.value}>
-//               {item.title}
-//             </option>
-//           ))}
-//         </select>
-//       </div>
-//     </div>
-//   );
-// };
+import { ApiEndpoints } from "../../../api/api";
+import axios from "axios";
+import { ImSpinner2 } from "react-icons/im";
 
 const AdminTeachers = () => {
   const navigate = useNavigate();
@@ -115,6 +55,7 @@ const AdminTeachers = () => {
     }
   ];
 
+  const [downloading, setDownloading] = useState(false);
   const [allStudents, setAllStudent] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -122,7 +63,6 @@ const AdminTeachers = () => {
     setLoading(true);
     handleGetAllTeachers()
       .then((res) => {
-        console.log(res.data.data);
         setAllStudent(res?.data?.data);
       })
       .catch((err) => console.log(err))
@@ -138,6 +78,30 @@ const AdminTeachers = () => {
         getAllTeachers();
       })
       .catch((err) => toast.error("Error " + err, { theme: "colored" }));
+  };
+
+  const downloadRecord = () => {
+    setDownloading(true);
+    axios({
+      url: ApiEndpoints.TEACHERS.DOWNLOAD_TEACHERS,
+      method: "GET",
+      responseType: "blob",
+      headers: {
+        Authorization: `Bearer ${window.localStorage.getItem("token")}`
+      }
+    })
+      .then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "teachers.csv");
+        document.body.appendChild(link);
+        link.click();
+      })
+      .catch((error) => {
+        console.error("Error downloading CSV file:", error);
+      })
+      .finally(() => setDownloading(false));
   };
 
   useEffect(() => {
@@ -172,9 +136,18 @@ const AdminTeachers = () => {
                     </button>
                   </div>
                   <div className="flex gap-3">
-                    <button className="font-semibold border text-appcolor flex items-center gap-2 py-2.5 px-5 text-sm rounded">
-                      <IoMdCloudDownload size={18} />
-                      Download Record
+                    <button
+                      disabled={downloading}
+                      onClick={downloadRecord}
+                      className="disabled:bg-opacity-70 font-semibold border text-appcolor flex items-center gap-2 py-2.5 px-5 text-sm rounded"
+                    >
+                      {downloading ? (
+                        <ImSpinner2 className="animate-spin" />
+                      ) : (
+                        <IoMdCloudDownload size={18} />
+                      )}
+
+                      {downloading ? "Downloading..." : "Download Record"}
                     </button>{" "}
                     <button
                       onClick={() => navigate("/admin/new-teacher")}
@@ -200,7 +173,7 @@ const AdminTeachers = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {teachers.map((teacher, idx) => (
+                    {allStudents.map((teacher, idx) => (
                       <tr
                         className={`${
                           idx % 2 === 1 ? "bg-white" : "bg-[#f5faff]"
@@ -208,13 +181,17 @@ const AdminTeachers = () => {
                         key={idx}
                       >
                         <td className="py-4 pl-10">{teacher.teacher_id}</td>
-                        <td className="py-4">{teacher.teacher_name}</td>
+                        <td className="py-4">{teacher.full_name}</td>
                         <td className="py-4">{teacher.class}</td>
-                        <td className="py-4">{teacher.status}</td>
+                        <td className="py-4">{teacher.enrollment_status}</td>
                         <td className="py-4">
                           <div className="flex items-center justify-center gap-3 text-sm">
                             <p
-                              onClick={() => navigate("/admin/teacher-details")}
+                              onClick={() =>
+                                navigate("/admin/teacher-details", {
+                                  state: { id: teacher.id }
+                                })
+                              }
                               role={"button"}
                               className="hover:underline text-green-800"
                             >
@@ -223,7 +200,9 @@ const AdminTeachers = () => {
                             |
                             <p
                               onClick={() =>
-                                navigate("/admin/edit-teacher-details")
+                                navigate("/admin/edit-teacher-details", {
+                                  state: { id: teacher.id }
+                                })
                               }
                               role={"button"}
                               className="hover:underline text-[#ffb966]"

@@ -3,7 +3,8 @@ import {
   createStudent,
   viewStudent,
   updateStudent,
-  deleteStudent
+  deleteStudent,
+  downloadStudent
 } from "../services/student";
 
 export const useStudent = () => {
@@ -57,11 +58,22 @@ export const useStudent = () => {
     });
   };
 
+  const handleDownloadStudent = () => {
+    return new Promise((resolve, reject) => {
+      downloadStudent()
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((e) => reject(e.message));
+    });
+  };
+
   return {
     handleGetAllStudents,
     handleCreateStudent,
     handleViewStudent,
     handleUpdateStudent,
-    handleDeleteStudent
+    handleDeleteStudent,
+    handleDownloadStudent
   };
 };

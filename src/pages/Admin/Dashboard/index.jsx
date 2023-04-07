@@ -32,11 +32,13 @@ const AdminDashboard = () => {
   ];
 
   const getTotalStudents = () => {
+    console.log("hi");
     setLoading(true);
     handleGetTotalStudents()
-      .then((res) =>
-        setData((prev) => ({ ...prev, student: res.data.data.total_students }))
-      )
+      .then((res) => {
+        console.log("res", res);
+        setData((prev) => ({ ...prev, student: res.data.data.total_students }));
+      })
       .catch((err) => console.log(err))
       .finally(() => setLoading(false));
   };
@@ -66,62 +68,67 @@ const AdminDashboard = () => {
   };
 
   useEffect(() => {
-    getTotalStudents();
+    handleGetTotalStudents().then((res) => {
+      console.log("res", res);
+      setData((prev) => ({ ...prev, student: res.data.data.total_students }));
+    });
+
     getTotalTeachers();
     getAllSubjects();
+    getTotalStudents();
   }, []);
-
-  if (loading) {
-    return <Loader />;
-  }
 
   console.log(data);
 
   return (
     <DashboardLayout>
-      <div className="mt-14">
-        <p className="text-xl font-semibold">Dashboard Overview</p>
-        <div className="bg-white p-10 px-16 mt-3 grid grid-cols-3 gap-4">
-          {analytics.map((item, idx) => (
-            <div
-              key={idx}
-              className="bg-[#EBF5FF] rounded p-5 py-10 grid place-content-center text-center"
-            >
-              <p className="opacity-80">{item.title}</p>
-              <p className="font-semibold text-lg">{item.value}</p>
-            </div>
-          ))}
-        </div>
-        <div className="mt-10">
-          <div className="flex justify-between">
-            <div className="flex items-center gap-4">
-              <p className="text-xl font-semibold">Analytics and Reports</p>
-              <p className="opacity-70">Subject Reading Rate</p>
-            </div>
-            <CustomSelect
-              aClass="w-28 py-1.5"
-              options={[
-                {
-                  title: "Monthly",
-                  value: "monthly"
-                },
+      {loading ? (
+        <Loader />
+      ) : (
+        <div className="mt-14">
+          <p className="text-xl font-semibold">Dashboard Overview</p>
+          <div className="bg-white p-10 px-16 mt-3 grid grid-cols-3 gap-4">
+            {analytics.map((item, idx) => (
+              <div
+                key={idx}
+                className="bg-[#EBF5FF] rounded p-5 py-10 grid place-content-center text-center"
+              >
+                <p className="opacity-80">{item.title}</p>
+                <p className="font-semibold text-lg">{item.value}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-10">
+            <div className="flex justify-between">
+              <div className="flex items-center gap-4">
+                <p className="text-xl font-semibold">Analytics and Reports</p>
+                <p className="opacity-70">Subject Reading Rate</p>
+              </div>
+              <CustomSelect
+                aClass="w-28 py-1.5"
+                options={[
+                  {
+                    title: "Monthly",
+                    value: "monthly"
+                  },
 
-                {
-                  title: "Weekly",
-                  value: "weekly"
-                },
-                {
-                  title: "Daily",
-                  value: "daily"
-                }
-              ]}
-            />
-          </div>
-          <div className="mt-3 ">
-            <Chart />
+                  {
+                    title: "Weekly",
+                    value: "weekly"
+                  },
+                  {
+                    title: "Daily",
+                    value: "daily"
+                  }
+                ]}
+              />
+            </div>
+            <div className="mt-3 ">
+              <Chart />
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </DashboardLayout>
   );
 };
