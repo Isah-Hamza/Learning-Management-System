@@ -58,7 +58,7 @@ const EditTeacher = () => {
     setUpdateLoding(true);
     handleUpdateTeacher({ id, data })
       .then((res) => {
-        toast.success("Successfully edited student details", {
+        toast.success("Successfully edited teacher details", {
           theme: "colored"
         });
         viewTeacher({ id: state?.id });
