@@ -9,29 +9,23 @@ import { useFormik } from "formik";
 import { Error } from "../Student/AddStudent";
 import { useCurriculum } from "../../../hooks/useCurriculum";
 import { toast } from "react-toastify";
+import { MdCancel } from "react-icons/md";
+import { ImSpinner2 } from "react-icons/im";
 
 const AddNewSubject = () => {
-  const [files, setFiles] = useState();
+  const [files, setFiles] = useState([]);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const inputRef = useRef(null);
   const formData1 = new FormData();
   const formData2 = new FormData();
   const { handleCreateSubject } = useCurriculum();
 
-  // const uploadFiles = async (files) => {
-  //   for (let i = 0; i < files.length; i++) {
-  //     formData2.append("topic_files", files[i]);
-  //   }
-  //   console.log("done with fu");
-  //   for (let pair of formData2.entries()) {
-  //     console.log(pair[0] + ": " + pair[1]);
-  //   }
-  // };
-
   const handleFileUpload = (event) => {
     const files = event.target.files;
     // uploadFiles(files);
     setFiles(files);
+    console.log("files", files);
   };
 
   const schema = Yup.object().shape({
@@ -53,19 +47,19 @@ const AddNewSubject = () => {
       }
       formData2.append("subject_name", values.subject_name);
       formData2.append("class", values.class);
-
-      for (let pair of formData2.entries()) {
-        console.log(pair[0] + ": " + pair[1]);
-      }
-
+      setLoading(true);
       handleCreateSubject(formData2)
-        .then((res) => console.log(res))
+        .then((res) => {
+          toast.success("Created Successfully", { theme: "colored" });
+          navigate(-1);
+        })
         .catch((e) => {
           console.log(e);
           toast.error(Error + e, { theme: "colored" });
         });
     }
   });
+
   return (
     <DashboardLayout>
       <form onSubmit={formik.handleSubmit} className="mt-11 w-[650px]">
@@ -101,8 +95,8 @@ const AddNewSubject = () => {
                 { title: "JSS2", value: "JSS2" },
                 { title: "JSS3", value: "JSS3" },
                 { title: "SSS1", value: "SS1" },
-                { title: "SSS2", value: "SS22" },
-                { title: "SSS3", value: "SSS3" }
+                { title: "SSS2", value: "SS2" },
+                { title: "SSS3", value: "SS3" }
               ]}
               {...formik.getFieldProps("class")}
             />
@@ -150,8 +144,26 @@ const AddNewSubject = () => {
               hidden
               onChange={handleFileUpload}
               multiple
+              accept=".txt,.doc,.docs"
             />
             <p className="text-xs">or drag and drop folder here.</p>
+            <div className="flex gap-2">
+              {files.length
+                ? [...Array.from(files)].map((file, idx) => (
+                    <div className="bg-blue-300 flex items-center gap-5 text-center mx-auto mt-5 px-5 py-2 rounded">
+                      <p>{file.name}</p>
+                      {/* <MdCancel
+                        className="cursor-pointer"
+                        onClick={() => {
+                          const remFiles = files.filter((_, id) => id !== idx);
+                          setFiles(remFiles);
+                        }}
+                        size={19}
+                      /> */}
+                    </div>
+                  ))
+                : null}
+            </div>
           </div>
           {formik.touched.topic_files && formik.errors.topic_files && (
             <Error text={formik.errors.topic_files} />
@@ -159,10 +171,20 @@ const AddNewSubject = () => {
         </div>
         <button
           // onClick={customSubmit}
+          disabled={loading}
           type="submit"
-          className="bg-appcolor ml-auto mt-10 text-white text-sm flex items-center gap-2 px-5 py-2 rounded-md"
+          className="bg-appcolor disabled:bg-opacity-60 ml-auto mt-10 text-white text-sm flex items-center gap-2 px-5 py-2 rounded-md"
         >
-          <BsCloudArrowUp size={20} /> Upload Subject
+          {loading ? (
+            <>
+              <ImSpinner2 size={20} className="animate-spin" />{" "}
+              {" Uploading... "}
+            </>
+          ) : (
+            <div className="flex  items-center gap-2">
+              <BsCloudArrowUp size={20} /> {"Upload Subject "}
+            </div>
+          )}
         </button>
       </form>
     </DashboardLayout>

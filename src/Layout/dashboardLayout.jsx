@@ -96,16 +96,16 @@ const DashboardLayout = ({ children }) => {
           title: "User Profiler",
           links: [
             {
-              title: "Student Profile",
+              title: "Student Profiler",
               url: "/admin/profiler",
               icon: <GiBlackBook size={18} />,
-              id: "subject"
+              id: "profiler"
             },
             {
-              title: "Parent Profile",
-              url: "/admin/profiler",
+              title: "Forensic Investigator",
+              url: "/admin/forensic-investigator",
               icon: <GiBlackBook size={18} />,
-              id: "assignment"
+              id: "investigator"
             }
           ]
         }
@@ -157,7 +157,7 @@ const DashboardLayout = ({ children }) => {
         <div>
           <img className="w-20 mx-auto" src={logo} />
         </div>
-        <div className="mt-2 mb-5">
+        <div className="mt-2 mb-10">
           {sidebarItmes.map((item, idx) => (
             <li
               onClick={() => handleNavigate(item.url)}
@@ -167,7 +167,7 @@ const DashboardLayout = ({ children }) => {
                 "font-semibold bg-[#EBF5FF] text-[#0072EA]"
               } transition-all duration-500  text-[15px]  mt-3 w-full flex flex-col gap-3 `}
             >
-              <p className="text-2xl font-semibold pl-[0.5vw] my-3">
+              <p className="whitespace-nowrap text-2xl font-semibold pl-[0.5vw] my-3">
                 {item.title}
               </p>
               <div>
@@ -183,7 +183,7 @@ const DashboardLayout = ({ children }) => {
                       role={"button"}
                       className="flex justify-between items-center text-base font-semibold pl-[3vw] hover:text-[#0072EA]/80 hover:bg-[#EBF5FF]/30 py-2.5 pr-5"
                     >
-                      <span>{sub.title}</span>
+                      <span className="whitespace-nowrap">{sub.title}</span>
                       <img src={arrowCircleDown} className="w-5" />
                     </p>
                     <ul>
@@ -194,7 +194,7 @@ const DashboardLayout = ({ children }) => {
                           key={idx}
                           className={`${
                             activeLink.includes(link.id) &&
-                            "font-semibold bg-[#EBF5FF] text-[#0072EA]"
+                            "whitespace-nowrap font-semibold bg-[#EBF5FF] text-[#0072EA]"
                           } transition-all duration-500 pl-[3vw] text-[15px] hover:bg-[#EBF5FF]/30 hover:text-[#0072EA]/80 py-2.5 mt-1 w-full flex items-center gap-3 `}
                         >
                           <span> {link.icon}</span>

@@ -1,10 +1,15 @@
 import { BsCaretLeftFill } from "react-icons/bs";
 import { IoMdCloudDownload } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import DashboardLayout from "../../../Layout/dashboardLayout";
+import moment from "moment";
 
 const LogDetails = () => {
   const navigate = useNavigate();
+  const { data } = useLocation().state;
+
+  const { json_data, log_date, log_type } = data;
+
   function goBack() {
     navigate(-1);
   }
@@ -36,11 +41,11 @@ const LogDetails = () => {
           </div>
           <div className="flex flex-col">
             <p className="opacity-60">Date / Time</p>
-            <p className="font-medium">12/12/2012</p>
+            <p className="font-medium">{moment(log_date).format("LL")}</p>
           </div>
           <div className="flex flex-col">
             <p className="opacity-60">IP Address</p>
-            <p className="font-medium">192.168.20.12</p>
+            <p className="font-medium">{json_data?.ip}</p>
           </div>
           <div className="flex flex-col">
             <p className="opacity-60">Duration</p>
@@ -52,18 +57,15 @@ const LogDetails = () => {
           </div>
           <div className="flex flex-col">
             <p className="opacity-60">Executable</p>
-            <p className="font-medium">Safari</p>
+            <p className="font-medium">
+              {json_data?.user_agent?.split(" ")[0]}
+            </p>
           </div>
         </div>
         <div className="flex flex-col">
           <p className="opacity-60">Descripition</p>
           <p className="font-medium max-w-[600px]">
-            Lorem ipsum dolor sit amet consectetur. Tortor nisi a in nec
-            molestie elementum natoque. Sed est id eget sed viverra aliquam.
-            Sagittis iaculis sit tincidunt non est justo volutpat. Vitae mi
-            vitae tempor non dignissim pulvinar neque. Cras hac aliquam varius
-            orci. Amet suspendisse risus vitae iaculis porttitor ridiculus a
-            ullamcorper ultricies.
+            {` The user specified above did -> ${log_type}`}
           </p>
         </div>
       </div>

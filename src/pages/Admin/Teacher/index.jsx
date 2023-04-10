@@ -9,6 +9,7 @@ import { NoData } from "../Student";
 import { ApiEndpoints } from "../../../api/api";
 import axios from "axios";
 import { ImSpinner2 } from "react-icons/im";
+import { toast } from "react-toastify";
 
 const AdminTeachers = () => {
   const navigate = useNavigate();
@@ -72,9 +73,10 @@ const AdminTeachers = () => {
   const deleteTeacher = ({ id }) => {
     handleDeleteTeacher({ id })
       .then((res) => {
-        toast.success("Student record deleted Successfully", {
+        toast.success("Teacher record deleted Successfully", {
           theme: "colored"
         });
+        // getAllTeachers();
         getAllTeachers();
       })
       .catch((err) => toast.error("Error " + err, { theme: "colored" }));
@@ -113,9 +115,9 @@ const AdminTeachers = () => {
       {loading ? (
         <Loader />
       ) : (
-        <div className="mt-10">
+        <div className="mt-10 flex-1 flex">
           {allStudents.length ? (
-            <div>
+            <div className="flex flex-col w-full">
               <p className="text-xl font-semibold">Teachers' Information</p>
               <div className="mt-3">
                 <div className="flex justify-between items-center">
@@ -158,7 +160,7 @@ const AdminTeachers = () => {
                   </div>
                 </div>
               </div>
-              <div className="w-full mt-8">
+              <div className="w-full my-8">
                 <table className="w-full">
                   <thead>
                     <tr>
@@ -211,6 +213,7 @@ const AdminTeachers = () => {
                             </p>
                             |
                             <p
+                              onClick={() => deleteTeacher({ id: teacher.id })}
                               role={"button"}
                               className="hover:underline text-[coral]"
                             >

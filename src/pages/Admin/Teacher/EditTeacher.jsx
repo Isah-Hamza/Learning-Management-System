@@ -85,9 +85,11 @@ const EditTeacher = () => {
       parent_emergency_contact: parent_emergency_contact
     },
     onSubmit: (values) => {
-      values.class_level_id = values.classs;
-      delete values.classs;
-      updateTeacher({ id, data: values });
+      const data = { ...values };
+      data.class_level_id = values.classs;
+      data.class = values.classs;
+      delete data.classs;
+      updateTeacher({ id, data });
     },
     enableReinitialize: true
   });

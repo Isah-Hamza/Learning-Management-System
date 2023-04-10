@@ -1,7 +1,9 @@
+import moment from "moment";
 import React from "react";
 import { FiMoreVertical } from "react-icons/fi";
 
-const ActivityCard = ({ clickHanldler }) => {
+const ActivityCard = ({ clickHanldler, item }) => {
+  const { json_data, log_date, log_type } = item;
   return (
     <div
       onClick={clickHanldler ? () => clickHanldler() : null}
@@ -13,11 +15,11 @@ const ActivityCard = ({ clickHanldler }) => {
       </div>
       <div className="flex flex-col">
         <p className="opacity-60">Date / Time</p>
-        <p className="font-medium">12/12/2012</p>
+        <p className="font-medium">{moment(log_date).format("LL")}</p>
       </div>
       <div className="flex flex-col">
         <p className="opacity-60">IP Address</p>
-        <p className="font-medium">192.168.20.12</p>
+        <p className="font-medium">{json_data?.ip}</p>
       </div>
       <div className="flex flex-col">
         <p className="opacity-60">Duration</p>
@@ -29,11 +31,11 @@ const ActivityCard = ({ clickHanldler }) => {
       </div>
       <div className="flex flex-col">
         <p className="opacity-60">Executable</p>
-        <p className="font-medium">Safari</p>
+        <p className="font-medium">{json_data?.user_agent?.split(" ")[0]}</p>
       </div>
       <div className="flex flex-col">
         <p className="opacity-60">Descripition</p>
-        <p className="font-medium">Lorem ipsum...</p>
+        <p className="font-medium">{log_type}</p>
       </div>
       <FiMoreVertical className="cursor-pointer" />
     </div>

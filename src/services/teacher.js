@@ -44,7 +44,7 @@ export const updateTeacher = ({ id, data }) => {
 };
 
 export const deleteTeacher = ({ id }) => {
-  return axios.delete(`${ApiEndpoints.STUDENTS.DELETE_STUDENT}/${id}`, {
+  return axios.delete(`${ApiEndpoints.TEACHERS.DELETE_TEACHER}/${id}`, {
     headers: {
       "Content-Type": "application/json",
       Authorization:

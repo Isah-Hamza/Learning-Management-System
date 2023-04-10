@@ -4,7 +4,8 @@ import {
   viewStudent,
   updateStudent,
   deleteStudent,
-  downloadStudent
+  downloadStudent,
+  searchStudent
 } from "../services/student";
 
 export const useStudent = () => {
@@ -68,12 +69,23 @@ export const useStudent = () => {
     });
   };
 
+  const handleSearchStudent = ({ search_term, class_level_id }) => {
+    return new Promise((resolve, reject) => {
+      searchStudent({ class_level_id, search_term })
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((e) => reject(e.message));
+    });
+  };
+
   return {
     handleGetAllStudents,
     handleCreateStudent,
     handleViewStudent,
     handleUpdateStudent,
     handleDeleteStudent,
-    handleDownloadStudent
+    handleDownloadStudent,
+    handleSearchStudent
   };
 };

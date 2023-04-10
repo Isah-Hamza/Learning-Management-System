@@ -45,7 +45,7 @@ const EditStudent = () => {
         toast.success("Successfully edited student details", {
           theme: "colored"
         });
-        viewTeacher({ id: state?.id });
+        viewStudent({ id: state?.id });
       })
       .catch((e) => toast.error("Error" + e, { theme: "colored" }))
       .finally(() => setUpdateLoding(false));

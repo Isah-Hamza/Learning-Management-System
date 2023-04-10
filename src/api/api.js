@@ -15,7 +15,8 @@ export const ApiEndpoints = {
     VIEW_STUDENT: `${api}/admin/students/view`,
     UPDATE_STUDENT: `${api}/admin/students/update`,
     DELETE_STUDENT: `${api}/admin/students/delete`,
-    DOWNLOAD_STUDENTS: `${api}/admin/students/download`
+    DOWNLOAD_STUDENTS: `${api}/admin/students/download`,
+    SEARCH_STUDENTS: `${api}/admin/students/search-by-class-level-and-name`
   },
   TEACHERS: {
     GET_ALL_TEACHERS: `${api}/admin/teachers`,
@@ -29,6 +30,15 @@ export const ApiEndpoints = {
     GET_ALL_SUBJECTS: `${api}/admin/subjects/all`,
     GET_ALL_CLASS: `${api}/admin/class/all`,
     GET_SINGLE_CLASS: `${api}/admin/class`,
-    CREATE_SUBJECT: `${api}/admin/subject/store`
+    CREATE_SUBJECT: `${api}/admin/subject/store`,
+    CREATE_TOPIC: `${api}/admin/topic/create-single-topic`
+  },
+  USER: {
+    USER_LOGGED_ACTIVITY: `${api}/admin/user-logged-activity`
+  },
+  SECURITY: {
+    CHANGE_PASSWORD: `${api}/security/change-password`,
+    TWO_STEP: `${api}/security/two-step-verification`,
+    GET_TWO_STEP: `${api}/security/get/two-step-verification-details`,
   }
 };

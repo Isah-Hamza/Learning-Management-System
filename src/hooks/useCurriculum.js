@@ -1,5 +1,6 @@
 import {
   createSubject,
+  createTopic,
   getAllClass,
   getAllSubjects,
   getSingleClass,
@@ -47,6 +48,16 @@ export const useCurriculum = () => {
     });
   };
 
+  const handleCreateTopic = (data) => {
+    return new Promise((resolve, reject) => {
+      createTopic(data)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((e) => reject(e.message));
+    });
+  };
+
   const handleGetTopics = ({ classId, subjectId }) => {
     return new Promise((resolve, reject) => {
       getTopics({ classId, subjectId })
@@ -62,6 +73,7 @@ export const useCurriculum = () => {
     handleGetAllClass,
     handleGetSingleClass,
     handleCreateSubject,
-    handleGetTopics
+    handleGetTopics,
+    handleCreateTopic
   };
 };
