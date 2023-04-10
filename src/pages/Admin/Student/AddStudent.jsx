@@ -65,7 +65,11 @@ const AddStudent = () => {
           );
           navigate("/admin/students");
         })
-        .catch((e) => toast.error("error", e.message))
+        .catch((e) => {
+          const [value] = Object.values(e.response.data.data);
+          console.log(value[0]);
+          toast.error(value[0], { theme: "colored" });
+        })
         .finally(() => setLoading(false));
     }
   });
@@ -306,3 +310,4 @@ export default AddStudent;
 
 // 37182 for m0009 student name -> Working Tester
 // 790952 for m000012 student
+// 754218 m000045

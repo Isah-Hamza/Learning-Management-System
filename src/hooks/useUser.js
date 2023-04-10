@@ -1,4 +1,4 @@
-import { getUserLoggedActivity } from "../services/user";
+import { getUserLevel, getUserLoggedActivity } from "../services/user";
 
 export const useUser = () => {
   const handleGetUserLoggedActivity = () => {
@@ -11,5 +11,15 @@ export const useUser = () => {
     });
   };
 
-  return { handleGetUserLoggedActivity };
+  const handleGetUserLevel = () => {
+    return new Promise((resolve, reject) => {
+      getUserLevel()
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((e) => reject(e.message));
+    });
+  };
+
+  return { handleGetUserLoggedActivity, handleGetUserLevel };
 };

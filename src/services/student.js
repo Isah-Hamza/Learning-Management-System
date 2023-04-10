@@ -78,3 +78,11 @@ export const searchStudent = ({ search_term, class_level_id }) => {
     }
   );
 };
+
+export const readTopic = ({ topic_id }) => {
+  return axios.get(`${ApiEndpoints.STUDENTS.READ_TOPIC}/${topic_id}`, {
+    headers: {
+      Authorization: "Bearer " + window.localStorage.getItem("token")
+    }
+  });
+};

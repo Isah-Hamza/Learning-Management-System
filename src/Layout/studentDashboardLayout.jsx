@@ -23,6 +23,7 @@ const StudentDashboardLayout = ({ children, readingPage }) => {
     window.localStorage.removeItem("token");
     navigate("/login");
   };
+  
   const navigate = useNavigate();
   const sidebarItmes = [
     {

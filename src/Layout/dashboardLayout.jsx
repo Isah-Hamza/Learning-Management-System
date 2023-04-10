@@ -10,11 +10,19 @@ import { HiOutlineUserGroup, HiOutlineUsers } from "react-icons/hi";
 import { MdOutlineLiveHelp } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import arrowCircleDown from "../assets/images/arrow-circle-down.png";
+import { BiLogOut } from "react-icons/bi";
 
 const DashboardLayout = ({ children }) => {
   const navigate = useNavigate();
   const parentRef = useRef(null);
   const buttonRef = useRef(null);
+
+  const handleLogout = () => {
+    window.localStorage.removeItem("username");
+    window.localStorage.removeItem("token");
+    navigate("/login");
+  };
+
   const sidebarItmes = [
     {
       title: "Home",
@@ -208,12 +216,24 @@ const DashboardLayout = ({ children }) => {
             </li>
           ))}
         </div>
-        <button
-          onClick={() => navigate("/admin/subscriptions")}
-          className="mt-auto text-sm font-semibold mx-auto max-w-[250px] w-full py-3 rounded bg-[#FCF3DE] text-[#FF8F0B] "
-        >
-          Subscription Plans
-        </button>
+        <div className="mt-auto">
+          <button
+            onClick={() => navigate("/admin/subscriptions")}
+            className=" text-sm font-semibold  w-full py-3 rounded bg-[#FCF3DE] text-[#FF8F0B] "
+          >
+            Subscription Plans
+          </button>
+          <button
+            onClick={handleLogout}
+            className="flex justify-center gap-2 mt-3 text-sm font-semibold w-full py-3 rounded bg-[#E9ECEF] text-[#000] "
+          >
+            <span>
+              {" "}
+              <BiLogOut size={19} />
+            </span>
+            <span>Logout</span>
+          </button>
+        </div>
       </aside>
       <div className="flex-1 flex flex-col p-10 px-16 h-full overflow-auto pb-10">
         <div className="flex justify-between items-center">

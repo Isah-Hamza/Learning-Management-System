@@ -1,10 +1,12 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import AuthLayout from "../../Layout/auth";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 
 const NewPassword = () => {
   const navigate = useNavigate();
+
+  // const { success } = useLocation().state; // check to make sure that success exist before continuing
 
   return (
     <AuthLayout>

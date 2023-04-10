@@ -1,9 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthLayout from "../../Layout/auth";
+import { useSecurity } from "../../hooks/useSecurity";
+import { toast } from "react-toastify";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
+
+  const { handleRequestOTP } = useSecurity();
+  const [phoneNumber, setPhoneNumber] = useState();
+  const [loading, setLoading] = useState(false);
+
+  const requestOTP = () => {
+    setLoading(true);
+    handleRequestOTP({ phone_number: phoneNumber })
+      .then((res) => {
+        navigate("/verify-account", { state: { phone_number: phoneNumber } });
+        toast.success("OTP sent", { theme: "colored" });
+      })
+      .catch((e) => {
+        console.log(e.mesage);
+        toast.error(e.response.data.data.error, { theme: "colored" });
+      })
+      .finally(() => setLoading(false));
+  };
 
   return (
     <AuthLayout>
@@ -15,6 +35,7 @@ const ResetPassword = () => {
               Phone Number
             </label>
             <input
+              onChange={(e) => setPhoneNumber(e.target.value)}
               className="border outline-none px-3 py-2 rounded-none"
               type={"text"}
               placeholder="+2348143852518"
@@ -25,10 +46,13 @@ const ResetPassword = () => {
             code expires in 10mins.
           </p>
           <button
-            onClick={() => navigate("/verify-account")}
-            className="text-white bg-appcolor py-2.5 rounded mt-4"
+            disabled={loading}
+            onClick={() => {
+              requestOTP();
+            }}
+            className="disabled:bg-opacity-60 text-white bg-appcolor py-2.5 rounded mt-4"
           >
-            Send Reset Code
+            {loading ? "Getting OTP..." : " Send Reset Code"}
           </button>
         </div>
       </div>

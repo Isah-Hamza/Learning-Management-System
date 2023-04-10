@@ -54,8 +54,7 @@ const StudentInformation = () => {
     setLoading(true);
     handleGetUserLoggedActivity()
       .then((res) => {
-        setActivities(res.data.data.user_activity);
-        console.log(res);
+        setActivities(res.data.data);
       })
       .catch((e) => console.log(e))
       .finally(() => setLoading(false));
@@ -204,7 +203,7 @@ const StudentInformation = () => {
           <div className="flex items-center gap-10">
             <PieChartExample />
             <div className="grid gap-1">
-              {chartLegend.map((item, idx) => {
+              {chartLegend?.map((item, idx) => {
                 return (
                   <div key={idx} className="flex gap-1 items-center">
                     <div
@@ -230,13 +229,13 @@ const StudentInformation = () => {
               />
             </div>
             <div className="flex flex-col gap-3 mt-7">
-              {activities.map((activity, idx) => (
+              {activities?.map((activity, idx) => (
                 <ActivityCard key={idx} item={activity} />
               ))}
               <div className="mt-auto">
                 <div className="mt-10 flex items-center justify-between gap-10 text-sm">
                   <div className="flex gap-3">
-                    {paginations.map((item, idx) => (
+                    {paginations?.map((item, idx) => (
                       <button
                         className=" w-10 h-10 shadow font-semibold rounded-full bg-white grid place-content-center"
                         key={idx}

@@ -1,4 +1,10 @@
-import { changePassword, getTwoStep, setTwoStep } from "../services/security";
+import {
+  changePassword,
+  getTwoStep,
+  requestOTP,
+  setTwoStep,
+  verifyOTP
+} from "../services/security";
 
 export const useSecurity = () => {
   const handleChangePassword = (data) => {
@@ -31,5 +37,31 @@ export const useSecurity = () => {
     });
   };
 
-  return { handleChangePassword, handleSetTwoStep, handleGetTwoStep };
+  const handleRequestOTP = (data) => {
+    return new Promise((resolve, reject) => {
+      requestOTP(data)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((e) => reject(e));
+    });
+  };
+
+  const handleVerifyOTP = (data) => {
+    return new Promise((resolve, reject) => {
+      verifyOTP(data)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((e) => reject(e));
+    });
+  };
+
+  return {
+    handleChangePassword,
+    handleSetTwoStep,
+    handleGetTwoStep,
+    handleRequestOTP,
+    handleVerifyOTP
+  };
 };

@@ -80,15 +80,18 @@ export const CustomSelect = ({
   );
 };
 
-export const NoData = ({ setNewStudent, text, url }) => {
+export const NoData = ({ setNewStudent, text, url, height }) => {
   const navigate = useNavigate();
   return (
-    <div className="h-[calc(100vh-85px)] flex flex-col justify-center items-center">
+    <div
+      style={{ height: height || "calc(100vh - 85px)" }}
+      className="h-[calc(100vh-85px)] flex flex-col justify-center items-center"
+    >
       <img src={noData} className="w-36" />
       <p>No record found!!!</p>
       <button
         // onClick={() => setNewStudent(true)}
-        onClick={() => navigate(url ?? "/admin/new-student")}
+        onClick={() => url !== null && navigate(url ?? "/admin/new-student")}
         className="text-blue-800 underline text-xs font-medium px-5 py-1 rounded"
       >
         {text ?? "Add new students"}

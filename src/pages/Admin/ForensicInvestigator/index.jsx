@@ -57,7 +57,7 @@ const ForensicInvestigator = () => {
             </div>
           </div>
           <div className="flex flex-col gap-4 mt-5 max-w-[950px]">
-            {activities?.map((item, idx) => (
+            {activities.map((item, idx) => (
               <ActivityCard
                 key={idx}
                 item={item}

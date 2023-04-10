@@ -1,11 +1,31 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import AuthLayout from "../../Layout/auth";
+import { useSecurity } from "../../hooks/useSecurity";
+import { toast } from "react-toastify";
 
 const VerifyAccount = () => {
   const navigate = useNavigate();
+
+  const { handleVerifyOTP } = useSecurity();
+  const { phone_number } = useLocation().state;
+  const [otp, setOtp] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const handleNavigate = () => {
-    navigate("/reset-password");
+    navigate("/new-password", { state: { success: true } });
+  };
+
+  const verifyOTP = () => {
+    handleVerifyOTP({ phone_number, otp })
+      .then((res) => {
+        toast.success(res.data.message, { theme: "colored" });
+        handleNavigate();
+      })
+      .catch((e) => {
+        toast.error(e.response.data.data.error, { theme: "colored" });
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -18,6 +38,7 @@ const VerifyAccount = () => {
               Verification Code
             </label>
             <input
+              onChange={(e) => setOtp(e.target.value)}
               className="border outline-none px-3 py-2 rounded-none"
               type={"text"}
               placeholder="GIGABYTE"
@@ -27,13 +48,16 @@ const VerifyAccount = () => {
             Please enter the code sent to your registered phone number to
             continue.
           </p>
-          <button className="text-white bg-appcolor py-2.5 rounded mt-4">
+          <button
+            onClick={verifyOTP}
+            className="text-white bg-appcolor py-2.5 rounded mt-4"
+          >
             Validate Code
           </button>
           <p className="text-sm text-center -mt-3">
             Didn't receive code?{" "}
             <span
-              onClick={handleNavigate}
+              // onClick={verifyOTP}
               role={"button"}
               className="text-appcolor font-semibold"
             >

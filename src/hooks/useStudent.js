@@ -5,7 +5,8 @@ import {
   updateStudent,
   deleteStudent,
   downloadStudent,
-  searchStudent
+  searchStudent,
+  readTopic
 } from "../services/student";
 
 export const useStudent = () => {
@@ -25,7 +26,7 @@ export const useStudent = () => {
         .then((res) => {
           resolve(res);
         })
-        .catch((e) => reject(e.message));
+        .catch((e) => reject(e));
     });
   };
 
@@ -78,6 +79,15 @@ export const useStudent = () => {
         .catch((e) => reject(e.message));
     });
   };
+  const handleReadTopic = ({ topic_id }) => {
+    return new Promise((resolve, reject) => {
+      readTopic({ topic_id })
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((e) => reject(e.message));
+    });
+  };
 
   return {
     handleGetAllStudents,
@@ -86,6 +96,7 @@ export const useStudent = () => {
     handleUpdateStudent,
     handleDeleteStudent,
     handleDownloadStudent,
-    handleSearchStudent
+    handleSearchStudent,
+    handleReadTopic
   };
 };

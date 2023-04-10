@@ -9,3 +9,11 @@ export const getUserLoggedActivity = () => {
     }
   });
 };
+
+export const getUserLevel = () => {
+  return axios.get(ApiEndpoints.USER.USER_LEVEL, {
+    headers: {
+      Authorization: "Bearer " + window.localStorage.getItem("token")
+    }
+  });
+};
