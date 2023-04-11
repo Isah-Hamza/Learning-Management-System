@@ -7,7 +7,9 @@ export const ApiEndpoints = {
   },
   ADMIN: {
     GET_TOTAL_STUDENTS: `${api}/admin/dashboard/total-students`,
-    GET_TOTAL_TEACHERS: `${api}/admin/dashboard/total-teachers`
+    GET_TOTAL_TEACHERS: `${api}/admin/dashboard/total-teachers`,
+    GET_ADMIN_INFO: `${api}/admin/get-admin-information`,
+    UPDATE_ADMIN_INFO: `${api}/admin/store-admin-information`,
   },
   STUDENTS: {
     GET_ALL_STUDENTS: `${api}/admin/students`,
@@ -44,5 +46,9 @@ export const ApiEndpoints = {
     GET_TWO_STEP: `${api}/security/get/two-step-verification-details`,
     REQUEST_OTP: `${api}/auth/send-password-reset-otp`,
     VERIFY_OTP: `${api}/auth/verify-password-reset-otp`
+  },
+  PROFILE_PICTURE:{
+    GET_PICTURE:`${api}/profile-photo/show-profile-picture`,
+    UPLOAD_PICTURE:`${api}/profile-photo/upload-picture`,
   }
 };

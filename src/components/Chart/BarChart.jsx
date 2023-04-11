@@ -11,18 +11,18 @@ import {
 } from "recharts";
 
 const data = [
-  { name: "Jan", sales: 2400 },
-  { name: "Feb", sales: 1398 },
-  { name: "Mar", sales: 9800 },
-  { name: "Apr", sales: 6908 },
-  { name: "May", sales: 4800 },
-  { name: "Jun", sales: 7800 },
-  { name: "Jul", sales: 4200 },
-  { name: "Aug", sales: 3900 },
-  { name: "Sep", sales: 8760 },
-  { name: "Oct", sales: 6800 },
-  { name: "Nov", sales: 8300 },
-  { name: "Dec", sales: 7200 }
+  { name: "Jan", month: 2400 },
+  { name: "Feb", month: 1398 },
+  { name: "Mar", month: 9800 },
+  { name: "Apr", month: 6908 },
+  { name: "May", month: 4800 },
+  { name: "Jun", month: 7800 },
+  { name: "Jul", month: 4200 },
+  { name: "Aug", month: 3900 },
+  { name: "Sep", month: 8760 },
+  { name: "Oct", month: 6800 },
+  { name: "Nov", month: 8300 },
+  { name: "Dec", month: 7200 }
 ];
 
 const CustomBar = (props) => {
@@ -44,7 +44,7 @@ const BarChartExample = () => {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="sales" fill="#F08C00" shape={<CustomBar />} />
+        <Bar dataKey="month" fill="#F08C00" shape={<CustomBar />} />
       </BarChart>
     </ResponsiveContainer>
   );

@@ -1,4 +1,9 @@
-import { getTotalStudents, getTotalTeachers } from "../services/admin";
+import {
+  getAdminInfo,
+  getTotalStudents,
+  getTotalTeachers,
+  updateAdminInfo
+} from "../services/admin";
 
 export const useAdmin = () => {
   const handleGetTotalStudents = () => {
@@ -10,6 +15,7 @@ export const useAdmin = () => {
         .catch((e) => reject(e.message));
     });
   };
+
   const handleGetTotalTeachers = () => {
     return new Promise((resolve, reject) => {
       getTotalTeachers()
@@ -19,5 +25,31 @@ export const useAdmin = () => {
         .catch((e) => reject(e.message));
     });
   };
-  return { handleGetTotalStudents, handleGetTotalTeachers };
+
+  const handleGetAdminInfo = () => {
+    return new Promise((resolve, reject) => {
+      getAdminInfo()
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((e) => reject(e.message));
+    });
+  };
+
+  const handleUpdateAdminInfo = (data) => {
+    return new Promise((resolve, reject) => {
+      updateAdminInfo(data)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((e) => reject(e));
+    });
+  };
+
+  return {
+    handleGetTotalStudents,
+    handleGetTotalTeachers,
+    handleGetAdminInfo,
+    handleUpdateAdminInfo
+  };
 };

@@ -3,6 +3,7 @@ import AuthLayout from "../../Layout/auth";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { toast } from "react-toastify";
+import { CustomPasswordInput } from "../Admin/Student";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -60,9 +61,7 @@ const Login = () => {
             <label htmlFor="password" className="font-medium">
               Password
             </label>
-            <input
-              className="border outline-none px-3 py-2 rounded-none"
-              type={"password"}
+            <CustomPasswordInput
               placeholder="***********"
               onChange={(e) => {
                 setData((prev) => ({ ...prev, password: e.target.value }));

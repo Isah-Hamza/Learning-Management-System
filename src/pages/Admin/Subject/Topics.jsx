@@ -48,8 +48,6 @@ const AdminTopics = () => {
   };
 
   const handleSubmit = () => {
-    console.log("first");
-    console.log(file);
     const formData = new FormData();
     formData.append("topic_file", file);
     formData.append("subject_id", subjectId);

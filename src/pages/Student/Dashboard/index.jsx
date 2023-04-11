@@ -7,12 +7,13 @@ import { useCurriculum } from "../../../hooks/useCurriculum";
 import { getSingleClass } from "../../../services/curriculum";
 import Loader from "../../../components/Loader";
 import { NoData } from "../../Admin/Student";
+import { useUser } from "../../../hooks/useUser";
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
+  const [id, setId] = useState("");
 
-  const id = 5;
-
+  const { handleGetUserLevel } = useUser();
   const { handleGetSingleClass } = useCurriculum();
   const [loading, setLoading] = useState(false);
   const [subjects, setSubjects] = useState([]);
@@ -42,7 +43,7 @@ const StudentDashboard = () => {
     }
   ];
 
-  const getSingleClass = () => {
+  const getSingleClass = ({ id }) => {
     setLoading(true);
     handleGetSingleClass({ id })
       .then((res) => {
@@ -52,8 +53,18 @@ const StudentDashboard = () => {
       .finally(() => setLoading(false));
   };
 
+  const getClassLevel = () => {
+    setLoading(true);
+    handleGetUserLevel()
+      .then((res) => {
+        setId(res.data.classLevel.id);
+        getSingleClass({ id: res.data.classLevel.id });
+      })
+      .catch((e) => console.log(e));
+  };
+
   useEffect(() => {
-    getSingleClass();
+    getClassLevel();
   }, []);
 
   return (

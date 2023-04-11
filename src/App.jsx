@@ -38,6 +38,7 @@ import VerifyAccount from "./pages/VerifyAccount";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AdminTextSummarizer from "./pages/Student/TextSummarizer/AdminTextSummarizer";
 
 function App() {
   return (
@@ -80,6 +81,10 @@ function App() {
           element={<LogDetails />}
         />
         <Route path="/admin/subscriptions" element={<Subscription />} />
+        <Route
+          path="/admin/text-summarizer"
+          element={<AdminTextSummarizer />}
+        />
 
         {/* student routes */}
         <Route path="/student/dashboard" element={<StudentDashboard />} />

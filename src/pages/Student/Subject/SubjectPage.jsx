@@ -82,7 +82,7 @@ const SubjectPage = () => {
               <Loader />
             </div>
           ) : (
-            <div className="flex-1 px-10 py-16">
+            <div className="flex-1 px-10 py-16 h-screen overflow-auto">
               <button
                 onClick={() => goBack("/student/subjects/")}
                 className="flex gap-1 items-center mb-8 text-[coral]"

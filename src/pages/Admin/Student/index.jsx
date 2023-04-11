@@ -15,6 +15,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { ApiEndpoints } from "../../../api/api";
 import axios from "axios";
 import { ImSpinner2 } from "react-icons/im";
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 
 export const CustomInput = ({
   label,
@@ -39,6 +40,56 @@ export const CustomInput = ({
         defaultValue={defaultValue || null}
         {...rest}
       />
+    </div>
+  );
+};
+
+export const CustomPasswordInput = ({
+  label,
+  name,
+  readOnly,
+  defaultValue,
+  ...rest
+}) => {
+  const [type, setType] = useState("password");
+
+  const toggleType = () => {
+    if (type === "password") setType("text");
+    else setType("password");
+  };
+
+  return (
+    <div className="flex flex-col gap-1 text-sm">
+      <label className="font-semibold " htmlFor={name}>
+        {label}
+      </label>
+      <div className="relative">
+        <button
+          type="button"
+          onClick={toggleType}
+          className="absolute top-1/2 right-2 -translate-y-1/2"
+        >
+          {type === "password" ? (
+            <span>
+              <AiFillEyeInvisible size={22} />
+            </span>
+          ) : (
+            <span>
+              <AiFillEye size={22} />
+            </span>
+          )}
+        </button>
+        <input
+          readOnly={readOnly}
+          className={`${
+            readOnly ? "bg-[#f1f3f5]" : "bg-transparent"
+          } p-3 px-4  rounded border outline-none w-full`}
+          type={type}
+          name={name}
+          defaultValue={defaultValue || null}
+          {...rest}
+        />
+      </div>
     </div>
   );
 };

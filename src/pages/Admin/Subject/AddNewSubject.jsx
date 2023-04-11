@@ -23,9 +23,7 @@ const AddNewSubject = () => {
 
   const handleFileUpload = (event) => {
     const files = event.target.files;
-    // uploadFiles(files);
     setFiles(files);
-    console.log("files", files);
   };
 
   const schema = Yup.object().shape({
@@ -152,14 +150,6 @@ const AddNewSubject = () => {
                 ? [...Array.from(files)].map((file, idx) => (
                     <div className="bg-blue-300 flex items-center gap-5 text-center mx-auto mt-5 px-5 py-2 rounded">
                       <p>{file.name}</p>
-                      {/* <MdCancel
-                        className="cursor-pointer"
-                        onClick={() => {
-                          const remFiles = files.filter((_, id) => id !== idx);
-                          setFiles(remFiles);
-                        }}
-                        size={19}
-                      /> */}
                     </div>
                   ))
                 : null}

@@ -80,24 +80,24 @@ const DashboardLayout = ({ children }) => {
               icon: <GiBlackBook size={18} />,
               id: "subject"
             },
-            {
-              title: "Assignment",
-              url: "/admin/assignment",
-              icon: <GiBlackBook size={18} />,
-              id: "assignment"
-            },
+            // {
+            //   title: "Assignment",
+            //   url: "/admin/assignment",
+            //   icon: <GiBlackBook size={18} />,
+            //   id: "assignment"
+            // },
             {
               title: "Text Summarizer",
               url: "/admin/text-summarizer",
               icon: <GiBlackBook size={18} />,
               id: "text-summarizer"
             },
-            {
-              title: "Quizzes",
-              url: "/admin/quizzes",
-              icon: <GiBlackBook size={18} />,
-              id: "quizzes"
-            }
+            // {
+            //   title: "Quizzes",
+            //   url: "/admin/quizzes",
+            //   icon: <GiBlackBook size={18} />,
+            //   id: "quizzes"
+            // }
           ]
         },
         {
