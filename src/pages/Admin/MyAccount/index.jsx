@@ -60,7 +60,7 @@ const MyAccount = () => {
       other_name: adminData?.other_name ?? "",
       email: adminData?.email ?? "",
       phone_number: adminData?.phone_number ?? "",
-      date: adminData?.date ?? ""
+      date_of_birth: adminData?.date_of_birth ?? ""
     },
     enableReinitialize: true,
     onSubmit(values) {
@@ -221,7 +221,7 @@ const MyAccount = () => {
             <div>
               <div className="flex gap-7 mt-10 items-center">
                 <img
-                  className="w-40"
+                  className="rounded-full w-40"
                   src={imagePreview ? imagePreview : profile}
                 />
                 <input
@@ -295,10 +295,10 @@ const MyAccount = () => {
                     {...formik.getFieldProps("email")}
                   />
                   <CustomInput
-                    defaultValue={formik?.values?.date}
+                    defaultValue={formik?.values?.date_of_birth}
                     label="Date"
                     type={"date"}
-                    {...formik.getFieldProps("date")}
+                    {...formik.getFieldProps("date_of_birth")}
                   />
                 </div>
                 <button

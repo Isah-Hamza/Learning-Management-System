@@ -250,7 +250,9 @@ const AdminTeachers = () => {
               </div>
             </div>
           ) : (
-            <NoData text={"add new teacher"} url={"/admin/new-teacher"} />
+            <div className="w-full flex justify-center items-center">
+              <NoData text={"add new teacher"} url={"/admin/new-teacher"} />
+            </div>
           )}
         </div>
       )}
