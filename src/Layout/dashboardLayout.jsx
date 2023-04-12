@@ -249,9 +249,9 @@ const DashboardLayout = ({ children }) => {
                 className="w-full rounded px-6 pl-11 py-2.5 border outline-none"
               />
             </div>
-            <button className="font-semibold bg-appcolor text-white py-1.5 px-5 text-sm rounded">
+            {/* <button className="font-semibold bg-appcolor text-white py-1.5 px-5 text-sm rounded">
               + Add Subject
-            </button>
+            </button> */}
           </div>
           <div role="button" className="flex items-center gap-1">
             <img src={user} className="w-10" />
