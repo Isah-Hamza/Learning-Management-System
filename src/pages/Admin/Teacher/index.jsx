@@ -17,44 +17,9 @@ const AdminTeachers = () => {
 
   const paginations = ["1", "2", "3", "4", "5"];
   const tableHeader = ["Teacher ID", "Teacher Name", "Class", "Status", null];
-  const teachers = [
-    {
-      teacher_id: "M1602200",
-      teacher_name: "Bello Abdulqudus",
-      class: "ss3",
-      status: "online"
-    },
-    {
-      teacher_id: "M1602200",
-      teacher_name: "Bello Abdulqudus",
-      class: "ss3",
-      status: "online"
-    },
-    {
-      teacher_id: "M1602200",
-      teacher_name: "Bello Abdulqudus",
-      class: "ss3",
-      status: "online"
-    },
-    {
-      teacher_id: "M1602200",
-      teacher_name: "Bello Abdulqudus",
-      class: "ss3",
-      status: "online"
-    },
-    {
-      teacher_id: "M1602200",
-      teacher_name: "Bello Abdulqudus",
-      class: "ss3",
-      status: "online"
-    },
-    {
-      teacher_id: "M1602200",
-      teacher_name: "Bello Abdulqudus",
-      class: "ss3",
-      status: "online"
-    }
-  ];
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
 
   const [downloading, setDownloading] = useState(false);
   const [allStudents, setAllStudent] = useState([]);
@@ -110,6 +75,15 @@ const AdminTeachers = () => {
     getAllTeachers();
   }, []);
 
+  useEffect(() => {
+    if (searchTerm !== "") {
+      const result = allStudents.filter((stud) =>
+        stud.full_name.toLowerCase().includes(searchTerm.toLocaleLowerCase())
+      );
+      setSearchResult(result);
+    } else setSearchResult(allStudents);
+  }, [searchTerm, allStudents]);
+
   return (
     <DashboardLayout>
       {loading ? (
@@ -128,6 +102,7 @@ const AdminTeachers = () => {
                         className="absolute top-1/2 left-4 -translate-y-1/2"
                       />
                       <input
+                        onChange={(e) => setSearchTerm(e.target.value)}
                         placeholder="search for teachers"
                         type={"text"}
                         className="w-[300px] rounded px-6 pl-11 py-2 border outline-none"
@@ -175,7 +150,7 @@ const AdminTeachers = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {allStudents.map((teacher, idx) => (
+                    {searchResult.map((teacher, idx) => (
                       <tr
                         className={`${
                           idx % 2 === 1 ? "bg-white" : "bg-[#f5faff]"
@@ -225,6 +200,15 @@ const AdminTeachers = () => {
                     ))}
                   </tbody>
                 </table>
+                {searchTerm && searchResult.length === 0 ? (
+                  <div className="flex justify-center mt-40 text-center flex-col items-center">
+                    {" "}
+                    No match found.
+                    <p className="font-medium">
+                      No teacher match the search term.
+                    </p>
+                  </div>
+                ) : null}
               </div>
               <div className="mt-auto">
                 <div className="mt-10 flex items-center justify-between gap-10 text-sm">

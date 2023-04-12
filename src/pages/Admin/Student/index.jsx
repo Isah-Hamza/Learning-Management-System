@@ -219,14 +219,14 @@ const AdminStudents = () => {
     getAllStudents();
   }, []);
 
-  // useEffect(() => {
-  //   console.log(searchTerm);
-
-  //   setSearchResult(
-  //     allStudents.filter((stud) => stud.full_name.includes(searchTerm))
-  //   );
-  //   console.log(searchResult);
-  // }, [searchTerm]);
+  useEffect(() => {
+    if (searchTerm !== "") {
+      const result = allStudents.filter((stud) =>
+        stud.full_name.toLowerCase().includes(searchTerm.toLocaleLowerCase())
+      );
+      setSearchResult(result);
+    } else setSearchResult(allStudents);
+  }, [searchTerm, allStudents]);
 
   return (
     <>
@@ -299,7 +299,7 @@ const AdminStudents = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {allStudents.map((student, idx) => (
+                          {searchResult?.map((student, idx) => (
                             <tr
                               className={`${
                                 idx % 2 === 1 ? "bg-white" : "bg-[#f5faff]"
@@ -357,6 +357,15 @@ const AdminStudents = () => {
                           ))}
                         </tbody>
                       </table>
+                      {searchTerm && searchResult.length === 0 ? (
+                        <div className="flex justify-center mt-40 text-center flex-col items-center">
+                          {" "}
+                          No match found.
+                          <p className="font-medium">
+                            No student match the search term.
+                          </p>
+                        </div>
+                      ) : null}
                     </div>
                     <div className="mt-auto">
                       <div className="mt-10 flex items-center justify-between gap-10 text-sm">
