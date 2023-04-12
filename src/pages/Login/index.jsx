@@ -26,6 +26,8 @@ const Login = () => {
           navigate("/student/dashboard", { replace: true });
         if (res.data.data.role === "admin")
           navigate("/admin/dashboard", { replace: true });
+        if (res.data.data.role === "teacher")
+          navigate("/teacher/dashboard", { replace: true });
         console.log(res);
       })
       .catch((err) => {

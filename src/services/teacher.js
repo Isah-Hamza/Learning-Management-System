@@ -48,3 +48,14 @@ export const deleteTeacher = ({ id }) => {
     withCredentials: true
   });
 };
+
+
+export const getLoggedInTeacher = () => {
+  return axios.get(`${ApiEndpoints.TEACHERS.GET_LOGGEDIN_TEACHER}`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + window.localStorage.getItem("token")
+    },
+    withCredentials: true
+  });
+};

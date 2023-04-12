@@ -3,7 +3,8 @@ import {
   createTeacher,
   deleteTeacher,
   updateTeacher,
-  viewTeacher
+  viewTeacher,
+  getLoggedInTeacher
 } from "../services/teacher";
 
 export const useTeacher = () => {
@@ -57,11 +58,23 @@ export const useTeacher = () => {
     });
   };
 
+  
+  const handleGetLoggedInTeacher = () => {
+    return new Promise((resolve, reject) => {
+      getLoggedInTeacher()
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((e) => reject(e.message));
+    });
+  };
+
   return {
     handleGetAllTeachers,
     handleCreateTeacher,
     handleViewTeacher,
     handleDeleteTeacher,
-    handleUpdateTeacher
+    handleUpdateTeacher,
+    handleGetLoggedInTeacher
   };
 };

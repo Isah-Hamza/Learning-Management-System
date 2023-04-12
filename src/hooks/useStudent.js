@@ -6,7 +6,8 @@ import {
   deleteStudent,
   downloadStudent,
   searchStudent,
-  readTopic
+  readTopic,
+  getLoggedInStudent
 } from "../services/student";
 
 export const useStudent = () => {
@@ -79,6 +80,16 @@ export const useStudent = () => {
         .catch((e) => reject(e.message));
     });
   };
+
+  const handleGetLoggedInStudent = () => {
+    return new Promise((resolve, reject) => {
+      getLoggedInStudent()
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((e) => reject(e.message));
+    });
+  };
   const handleReadTopic = ({ topic_id }) => {
     return new Promise((resolve, reject) => {
       readTopic({ topic_id })
@@ -90,6 +101,7 @@ export const useStudent = () => {
   };
 
   return {
+    handleGetLoggedInStudent,
     handleGetAllStudents,
     handleCreateStudent,
     handleViewStudent,

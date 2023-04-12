@@ -39,6 +39,14 @@ import VerifyAccount from "./pages/VerifyAccount";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminTextSummarizer from "./pages/Student/TextSummarizer/AdminTextSummarizer";
+import TeacherDashboard from "./pages/Teacher/Dashboard";
+import TeacherSubject from "./pages/Teacher/Subject";
+import TeacherAssignment from "./pages/Teacher/Assignment";
+import NewAssignment from "./pages/Teacher/Assignment/NewAssignment";
+import TeacherClassroom from "./pages/Teacher/Classroom";
+import NewSubject from "./pages/Teacher/Subject/NewSubject";
+import TeacherAccount from "./pages/Teacher/MyAccount";
+import TeachersTools from "./pages/Teacher/Tools";
 
 function App() {
   return (
@@ -87,7 +95,6 @@ function App() {
         />
 
         {/* student routes */}
-        <Route path="/student/dashboard" element={<StudentDashboard />} />
         <Route path="/student/subjects" element={<StudentSubject />} />
         <Route path="/student/subject/:subjectName" element={<SubjectPage />} />
         <Route path="/student/assignment" element={<StudentAssignment />} />
@@ -103,6 +110,15 @@ function App() {
           element={<Support userType={"student"} />}
         />
         <Route path="/student/text-summarizer" element={<TextSummarizer />} />
+        {/* Teachers' route */}
+        <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
+        <Route path="/teacher/subjects" element={<TeacherSubject />} />
+        <Route path="/teacher/assignments" element={<TeacherAssignment />} />
+        <Route path="/teacher/new-assignment" element={<NewAssignment />} />
+        <Route path="/teacher/new-subject" element={<NewSubject />} />
+        <Route path="/teacher/classroom" element={<TeacherClassroom />} />
+        <Route path="/teacher/my-account" element={<TeacherAccount />} />
+        <Route path="/teacher/tools" element={<TeachersTools />} />
       </Routes>
       <ToastContainer />
     </div>

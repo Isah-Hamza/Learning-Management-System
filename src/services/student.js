@@ -29,6 +29,16 @@ export const viewStudent = ({ id }) => {
   });
 };
 
+export const getLoggedInStudent = () => {
+  return axios.get(`${ApiEndpoints.STUDENTS.GET_LOGGEDIN_STUDENT}`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + window.localStorage.getItem("token")
+    },
+    withCredentials: true
+  });
+};
+
 export const updateStudent = ({ id, data }) => {
   return axios.patch(`${ApiEndpoints.STUDENTS.UPDATE_STUDENT}/${id}`, data, {
     headers: {

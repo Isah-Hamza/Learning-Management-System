@@ -9,6 +9,8 @@ import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import { Error } from "../../Admin/Student/AddStudent";
 import { useStudent } from "../../../hooks/useStudent";
+import TeacherDashboardLayout from "../../../Layout/TeacherDashboardLayout";
+import { useTeacher } from "../../../hooks/useTeacher";
 
 const Toggle = ({ activated, onChange, loading }) => {
   const [active, setActive] = useState(() => (activated ? true : false));
@@ -32,7 +34,7 @@ const Toggle = ({ activated, onChange, loading }) => {
   );
 };
 
-const StudentAccount = () => {
+const TeacherAccount = () => {
   const tabs = ["account details", "security settings"];
   const [activeTab, setActiveTab] = useState("account details");
   const [passwordLoading, setPasswordLoading] = useState(false);
@@ -46,8 +48,8 @@ const StudentAccount = () => {
 
   const { handleChangePassword, handleGetTwoStep } = useSecurity();
   const { handleSetTwoStep } = useSecurity();
-  const { handleGetLoggedInStudent, handleViewStudent, handleUpdateStudent } =
-    useStudent();
+  const { handleGetLoggedInTeacher, handleViewTeacher, handleUpdateTeacher } =
+    useTeacher();
 
   const formik = useFormik({
     initialValues: {
@@ -98,23 +100,23 @@ const StudentAccount = () => {
     }
   });
 
-  const viewStudent = ({ id }) => {
+  const viewTeacher = ({ id }) => {
     setLoading(true);
-    handleViewStudent({ id })
+    handleViewTeacher({ id })
       .then((res) => {
-        setAdminData(res.data.data.id);
+        setAdminData(res.data.data[0]);
       })
       .catch((err) => console.log(err.message))
       .finally(() => setLoading(false));
   };
 
-  const getLoggedInStudent = () => {
+  const getLoggedInTeacher = () => {
     setLoading(true);
-    handleGetLoggedInStudent()
+    handleGetLoggedInTeacher()
       .then((res) => {
-        setUserId(res.data.data.user_id);
-        setId(res.data.data.id);
-        viewStudent({ id: res.data.data.user_id });
+        setUserId(res.data.data.teacher.id);
+        setId(res.data.data.teacher.id);
+        viewTeacher({ id: res.data.data.teacher.id });
       })
       .catch((e) => console.log(e))
   };
@@ -149,11 +151,11 @@ const StudentAccount = () => {
 
   useEffect(() => {
     getTwoStep();
-    getLoggedInStudent();
+    getLoggedInTeacher();
   }, []);
 
   return (
-    <StudentDashboardLayout>
+    <TeacherDashboardLayout>
       {loading ? (
         <Loader />
       ) : (
@@ -322,8 +324,8 @@ const StudentAccount = () => {
           )}
         </div>
       )}
-    </StudentDashboardLayout>
+    </TeacherDashboardLayout>
   );
 };
 
-export default StudentAccount;
+export default TeacherAccount;

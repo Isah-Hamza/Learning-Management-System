@@ -163,6 +163,9 @@ const AdminStudents = () => {
   const paginations = ["1", "2", "3", "4", "5"];
   const tableHeader = ["Student ID", "Student Name", "Class", "Status", null];
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
+
   const [allStudents, setAllStudent] = useState([]);
   const [loading, setLoading] = useState(false);
   const [downloading, setDownloading] = useState(false);
@@ -216,6 +219,15 @@ const AdminStudents = () => {
     getAllStudents();
   }, []);
 
+  // useEffect(() => {
+  //   console.log(searchTerm);
+
+  //   setSearchResult(
+  //     allStudents.filter((stud) => stud.full_name.includes(searchTerm))
+  //   );
+  //   console.log(searchResult);
+  // }, [searchTerm]);
+
   return (
     <>
       <DashboardLayout>
@@ -239,6 +251,7 @@ const AdminStudents = () => {
                               className="absolute top-1/2 left-4 -translate-y-1/2"
                             />
                             <input
+                              onChange={(e) => setSearchTerm(e.target.value)}
                               placeholder="search for students"
                               type={"text"}
                               className="w-[300px] rounded px-6 pl-11 py-2 border outline-none"

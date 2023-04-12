@@ -19,7 +19,8 @@ export const ApiEndpoints = {
     DELETE_STUDENT: `${api}/admin/students/delete`,
     DOWNLOAD_STUDENTS: `${api}/admin/students/download`,
     SEARCH_STUDENTS: `${api}/admin/students/search-by-class-level-and-name`,
-    READ_TOPIC: `${api}/student/read/topic`
+    READ_TOPIC: `${api}/student/read/topic`,
+    GET_LOGGEDIN_STUDENT: `${api}/student/get-logged-in-student`,
   },
   TEACHERS: {
     GET_ALL_TEACHERS: `${api}/admin/teachers`,
@@ -27,7 +28,9 @@ export const ApiEndpoints = {
     VIEW_TEACHER: `${api}/admin/teachers/view`,
     UPDATE_TEACHER: `${api}/admin/teachers/update`,
     DELETE_TEACHER: `${api}/admin/teachers/delete`,
-    DOWNLOAD_TEACHERS: `${api}/admin/teachers/download`
+    DOWNLOAD_TEACHERS: `${api}/admin/teachers/download`,
+    GET_LOGGEDIN_TEACHER: `${api}/teacher/get-logged-in-teacher`,
+
   },
   CURRICULUM: {
     GET_ALL_SUBJECTS: `${api}/admin/subjects/all`,

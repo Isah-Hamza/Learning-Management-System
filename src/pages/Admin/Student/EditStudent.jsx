@@ -51,10 +51,6 @@ const EditStudent = () => {
       .finally(() => setUpdateLoding(false));
   };
 
-  useEffect(() => {
-    console.log(id);
-  }, [state]);
-
   const formik = useFormik({
     initialValues: {
       first_name: details?.first_name,
@@ -272,7 +268,7 @@ const EditStudent = () => {
                     onClick={formik.handleSubmit}
                     className="disabled:bg-opacity-60 text-white bg-appcolor rounded-md px-5 py-2 mt-7 text-sm"
                   >
-                    {updateLoading ? "Updating..." : "Edit Details"}
+                    {updateLoading ? "Saving Changes..." : "Save Changes"}
                   </button>
                 </div>
               </form>
