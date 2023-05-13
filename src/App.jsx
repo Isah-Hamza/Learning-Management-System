@@ -95,6 +95,7 @@ function App() {
         />
 
         {/* student routes */}
+        <Route path="/student/dashboard" element={<StudentDashboard />} />
         <Route path="/student/subjects" element={<StudentSubject />} />
         <Route path="/student/subject/:subjectName" element={<SubjectPage />} />
         <Route path="/student/assignment" element={<StudentAssignment />} />
